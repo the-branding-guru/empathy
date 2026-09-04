@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EMPATHY — Joint Venture: Heads of Terms</title>
+<style>
+
+@font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-400-normal.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-500-normal.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-600-normal.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Serif';
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-serif@latest/latin-400-normal.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Serif';
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-serif@latest/latin-500-normal.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Serif';
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-serif@latest/latin-600-normal.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'IBM Plex Serif';
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-serif@latest/latin-400-italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Monaspace Radon';
+    src: url('https://cdn.jsdelivr.net/gh/githubnext/monaspace@main/fonts/Web%20Fonts/Static%20Web%20Fonts/Monaspace%20Radon/MonaspaceRadon-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Monaspace Radon';
+    src: url('https://cdn.jsdelivr.net/gh/githubnext/monaspace@main/fonts/Web%20Fonts/Static%20Web%20Fonts/Monaspace%20Radon/MonaspaceRadon-Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+:root {
+    --bg: #0a0a0a;
+    --bg-panel: #111111;
+    --bg-panel-accent: rgba(167,139,250,0.10);
+    --text: #ffffff;
+    --text-dim: rgba(255,255,255,0.65);
+    --text-dimmer: rgba(255,255,255,0.40);
+    --text-dimmest: rgba(255,255,255,0.18);
+    --accent: #a78bfa;
+    --accent-glow: rgba(167,139,250,0.45);
+    --accent-dim: rgba(167,139,250,0.14);
+    --secondary: #fbbf24;
+    --status-success: #4ade80;
+    --status-warning: #fbbf24;
+    --status-error: #f87171;
+    --status-info: #60a5fa;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.16);
+    --font-display: 'Cormorant Garamond', 'IBM Plex Serif', Charter, Georgia, serif;
+    --font-body: 'IBM Plex Serif', Charter, Georgia, serif;
+    --font-brand: 'Cormorant Garamond', 'IBM Plex Serif', Charter, Georgia, serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 10pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    /* Better serif rendering on dark backgrounds */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+
+@page {
+    /* Use explicit mm dimensions instead of named size keyword.
+       Chrome's named-size handling can produce slightly smaller
+       printable areas than the literal page dimensions, leaving
+       gaps at right/bottom edges. Explicit mm forces full bleed. */
+    size: 215.9mm 279.4mm;
+    margin: 0;
+}
+
+.page {
+    width: 215.9mm;
+    padding: 0.6in 0.7in 0.6in 0.7in;
+    /* Each section starts on a fresh page (page-break-before: always)
+       — never orphaned at the bottom of the prior page. Content within
+       the section CAN break across page boundaries naturally
+       (page-break-inside NOT avoid on .page itself; tables/callouts
+       still keep their own atomicity below). This keeps section
+       openings clean and visually anchored while allowing long
+       sections to spill content naturally. */
+    page-break-before: always;
+    page-break-after: auto;
+    position: relative;
+    box-sizing: border-box;
+    margin-bottom: 0;
+}
+
+/* First content section can flow right after cover; cover keeps standalone */
+.page.cover { page-break-after: always; min-height: 287mm; margin-bottom: 0; }
+.page:last-child { page-break-after: auto; margin-bottom: 0; }
+/* Section opener stays together — heading + eyebrow + first content block.
+   Prevents the heading-orphaned-with-empty-body pattern at page tops. */
+.page > .page-header,
+.page > .section-eyebrow,
+.page > h1.section,
+.page > h1.section-heading {
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+/* Prevent orphaned headings / table rows */
+h1, h2, h3 { page-break-after: avoid; break-after: avoid; }
+table, .callout, .chart-wrap, .ask-table, .kpi-strip,
+.pullquote, .channel-bars, .rule-grid, .boundary-table, .kpi {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+tr { page-break-inside: avoid; break-inside: avoid; }
+
+
+/* Red rule at left of content pages. The previous design used
+   margin-left:18mm to indent the page from the document edge — but
+   the page was still 210mm wide, producing a 228mm horizontal
+   footprint that overflowed A4 by 18mm and misaligned content with
+   the cover. Drop margin-left; keep width:210mm. The red rule now
+   sits at the page edge, content pages and cover share the same
+   horizontal extents (0..210mm), and screenshots/exports stay
+   in-page-bounds. padding-left provides the visual breathing room
+   inside the rule. */
+.page:not(.cover) {
+    padding-left: 10mm;
+    padding-right: 16mm;
+}
+
+/* Page header — kept uppercase for runner-style nav (semantic micro-label) */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 7pt;
+    margin-bottom: 18pt;
+    font-size: 7.5pt;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+    font-weight: 400;
+}
+.page-header .mark {
+    color: var(--accent);
+    font-weight: 500;
+    font-family: var(--font-display);
+    letter-spacing: 2px;
+}
+
+/* Cycle 26 design rule: page-bottom footer with build-attestation
+   (PILLAR 03 made visible — substrate composes its own evidence). */
+.page-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 4pt;
+    margin-top: 8pt;
+    page-break-before: avoid;
+    break-before: avoid;
+    font-family: var(--font-display);
+    font-size: 7.5pt;
+    color: var(--text-dimmer);
+    font-weight: 400;
+}
+.page-footer-brand { color: var(--text-dim); }
+.page-footer-mark { color: var(--accent); font-weight: 500; }
+
+/* Cover — explicit A4 box. width/height/min-height all redundantly
+   set to defeat any Chrome print quirk that previously rendered the
+   cover at ~83%×87% of A4. */
+.cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* padding 18mm top, 22mm sides, 14mm bottom — content was sitting
+       too far above the page edge with the original 24mm symmetric
+       vertical padding (cover-bottom anchored 24mm above page bottom).
+       Tighter bottom padding pulls the running footer line closer to
+       the page edge, gradient extends visibly to the bottom. */
+    padding: 18mm 22mm 14mm 22mm;
+    box-sizing: border-box;
+    width: 210mm;
+    min-width: 210mm;
+    height: 297mm;
+    min-height: 297mm;
+    margin: 0;
+    background:
+        radial-gradient(ellipse at 85% 15%, rgba(167,139,250,0.1), transparent 55%),
+        radial-gradient(ellipse at 15% 85%, rgba(251,191,36,0.06), transparent 55%),
+        #0a0a0a;
+}
+.cover::before { display: none; }
+.cover > * { position: relative; z-index: 1; }
+
+.cover-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    font-family: var(--font-display); font-size: 9pt;
+    color: var(--text-dimmer); font-weight: 400;
+    /* Cycle 23: was uppercase letterspaced — now editorial top-runner */
+}
+
+.cover-center { display: flex; flex-direction: column; gap: 28pt; }
+
+/* Brand lockup on cover (Cycle 38 — mark + wordmark side-by-side).
+   When both present, render as horizontal lockup (logo + wordmark form
+   single identity unit). Eyebrow runs as separate line below the lockup. */
+.cover-lockup {
+    display: flex; align-items: center; gap: 12pt;
+    margin-bottom: 6pt;
+}
+.cover-mark {
+    width: 44pt; height: 44pt; flex-shrink: 0;
+}
+.cover-mark svg { width: 100%; height: 100%; display: block; }
+.cover-wordmark {
+    font-family: var(--font-brand);
+    font-size: 36pt; line-height: 1; font-weight: 400;
+    letter-spacing: -0.5px; color: var(--text);
+    /* Preserves canonical capitalization (e.g. "mythOS") — no text-transform */
+}
+.cover-wordmark .accent { color: var(--accent); }
+
+.cover-eyebrow {
+    font-family: var(--font-display); font-size: 10pt;
+    letter-spacing: 6px; text-transform: uppercase; color: var(--accent);
+    font-weight: 400;
+}
+
+/* Brand-mark span — preserves canonical capitalization (e.g. mythOS) inside
+   uppercase-styled contexts. Always render brand wordmarks via this class
+   so text-transform/letter-spacing don't break the canon spelling. */
+.brand-mark {
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    font-family: var(--font-brand, var(--font-display)) !important;
+}
+
+.cover-title {
+    font-family: var(--font-display); font-size: 56pt; line-height: 1.05;
+    letter-spacing: -0.5px; font-weight: 400; color: var(--text);
+    text-wrap: balance;
+    /* No uppercase — cover-eyebrow is the only uppercase on cover (Cycle 23) */
+}
+.cover-title .accent { color: var(--accent); }
+.cover-title .glow { text-shadow: 0 0 30pt rgba(167,139,250,0.45); }
+
+.cover-sub {
+    font-size: 14pt; color: var(--text-dim); font-weight: 300;
+    max-width: 140mm; line-height: 1.4;
+    text-wrap: pretty;
+}
+
+/* Cycle 47: vertical-stacked editorial-block (was 2x2 grid — felt form-y).
+   Each row is a label + value with hairline separator. Reads as masthead
+   credits, not a form to fill out. */
+.cover-meta {
+    display: flex; flex-direction: column;
+    padding-top: 22pt;
+    border-top: 1px solid var(--border-strong); font-size: 10pt;
+}
+.cover-meta > div {
+    display: grid; grid-template-columns: 70mm 1fr;
+    align-items: baseline;
+    padding: 9pt 0;
+    border-bottom: 1px solid var(--border);
+}
+.cover-meta > div:last-child { border-bottom: none; }
+.cover-meta dt {
+    font-family: var(--font-display);
+    color: var(--text-dimmer); font-weight: 400;
+    font-size: 8.5pt; letter-spacing: 1.5px; text-transform: uppercase;
+    /* uppercase here = semantic micro-label (one of the 4 surfaces with
+       intentional uppercase per Cycle 23 policy) */
+}
+.cover-meta dd { color: var(--text); font-weight: 400; font-size: 11pt; }
+
+.cover-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--font-display); font-size: 9pt;
+    color: var(--text-dimmer);
+    /* Cycle 23: was uppercase letterspaced — now editorial footer-runner */
+}
+
+/* Section headings — Cycle 23: sentence case (was uppercase tier #2)
+   Cycle 29: text-wrap: balance prevents orphan/widow lines (Chrome 114+,
+   Safari 17.5+, Firefox 121+ — all printers shipping today). */
+h1.section {
+    font-family: var(--font-display); font-size: 20pt;
+    font-weight: 500; line-height: 1.15; letter-spacing: -0.3px;
+    margin-bottom: 8pt; color: var(--text);
+    text-wrap: balance;
+}
+h1.section .accent { color: var(--accent); font-weight: 400; }
+
+.section-eyebrow {
+    font-family: var(--font-display); font-size: 8pt;
+    letter-spacing: 5px; text-transform: uppercase; color: var(--accent);
+    font-weight: 400; margin-bottom: 6pt;
+}
+
+h2.sub {
+    font-family: var(--font-display); font-size: 12pt; font-weight: 500;
+    /* margin-top + padding-top combo: margin collapses with previous
+       block's margin-bottom in normal flow (no double-counting),
+       padding survives the page-break overflow case (where margin
+       collapses to 0 because heading lands at top of a fresh page).
+       Larger padding-top (14pt) ensures meaningful breathing room
+       on overflow pages without inflating normal-flow spacing too
+       much (margin-bottom of preceding block dominates the merge). */
+    margin-top: 4pt;
+    padding-top: 14pt;
+    margin-bottom: 6pt;
+    color: var(--text);
+    letter-spacing: -0.2px;
+    text-wrap: balance;
+}
+
+h3.mini {
+    font-family: var(--font-display); font-size: 12.5pt; font-weight: 600;
+    color: var(--text); font-style: normal;
+    margin: 0 0 8pt; padding-bottom: 6pt;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.25; letter-spacing: -0.2px;
+}
+/* Pillar-style cards: lead identifier (PILLAR 01) becomes a small accent
+   eyebrow above the heading body so the headline lands as a sentence
+   instead of a label. Wraps "PILLAR NN · " automatically via .col-card-eyebrow. */
+.col-card .col-card-eyebrow {
+    display: block;
+    font-size: 7.5pt; letter-spacing: 1.8px; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+    margin-bottom: 4pt;
+}
+.col-card .col-card-eyebrow + .col-card-headline {
+    display: block; color: var(--text); font-weight: 600;
+    font-size: 13pt; line-height: 1.2; letter-spacing: -0.2px;
+}
+
+p { margin-bottom: 6pt; color: var(--text-dim); font-weight: 400; text-wrap: pretty; }
+p.lede {
+    color: var(--text); font-size: 11.5pt; font-weight: 400;
+    line-height: 1.45; margin-bottom: 9pt;
+    text-wrap: pretty;
+}
+/* Tighter table cells for content-dense pages */
+table td, table th { padding: 5pt 8pt; font-size: 9.5pt; line-height: 1.4; }
+/* Tighter section heading margin so more body fits per page */
+h1.section { margin-bottom: 12pt; }
+h2.sub { margin-top: 12pt; margin-bottom: 6pt; }
+/* Emotional/editorial emphasis — strong = gravity, em = voice. Both
+   tightened so emphasis lands instead of slumping into body color. */
+p em, li em, td em { font-style: italic; color: var(--text); font-weight: 400; }
+p strong em, p em strong { color: var(--accent); font-style: italic; font-weight: 500; }
+/* Drop cap on the FIRST lede paragraph in each section (editorial-brief convention) */
+.section-eyebrow + h1.section + p.lede::first-letter,
+h1.section + p.lede::first-letter {
+    font-family: var(--font-display); font-size: 38pt;
+    float: left; line-height: 0.9; padding: 4pt 8pt 0 0;
+    color: var(--accent); font-weight: 400;
+}
+p strong, .white, td strong, li strong { color: var(--text); font-weight: 600; }
+
+/* KPI strip — Cycle 23: editorial-data-block style, not startup-deck-hero-card.
+   Hairline rules between items, no card backgrounds, sentence-case labels,
+   data-font (Monaspace Radon) for numbers per brief-format three-voice cast. */
+.kpi-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin: 14pt 0 16pt;
+    border-top: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border-strong);
+}
+.kpi {
+    padding: 12pt 16pt;
+    border-right: 1px solid var(--border);
+}
+.kpi:first-child { padding-left: 0; }
+.kpi:last-child { padding-right: 0; border-right: none; }
+.kpi-label {
+    font-size: 8pt; color: var(--text-dim);
+    margin-bottom: 6pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.2px;
+}
+.kpi-value {
+    font-family: 'Monaspace Radon', 'Monaspace Argon', var(--font-display);
+    font-size: 26pt; color: var(--text); font-weight: 500; line-height: 1;
+    letter-spacing: -0.8px;
+}
+.kpi-value.accent { color: var(--accent); }
+.kpi-sub {
+    font-size: 8.5pt; color: var(--text-dimmer);
+    margin-top: 7pt; font-weight: 400; line-height: 1.45;
+}
+
+/* Tables — Cycle 23: editorial style, sentence-case headers, refined leading */
+table {
+    width: 100%; border-collapse: collapse;
+    margin: 12pt 0 14pt; font-size: 10pt;
+}
+thead th {
+    text-align: left; font-family: var(--font-display);
+    font-size: 9.5pt; color: var(--text); padding: 8pt 10pt 8pt 0;
+    border-bottom: 1px solid var(--border-strong); font-weight: 500;
+    /* Cycle 23: was uppercase letterspaced — now sentence case display font */
+}
+thead th.num, td.num { text-align: right; }
+tbody td {
+    padding: 7pt 8pt 7pt 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim); font-weight: 400;
+    line-height: 1.5;
+}
+/* Cycle 26 design rule: subtle zebra-stripe for dense-table legibility */
+tbody tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.015);
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody td .white { color: var(--text); font-weight: 500; }
+tbody tr.total td {
+    color: var(--text); font-weight: 600;
+    border-top: 1px solid var(--border-strong);
+    border-bottom: none; padding-top: 7pt;
+}
+tbody tr.total td.num {
+    color: var(--accent); font-size: 10.5pt;
+    font-family: var(--font-display);
+}
+tbody tr.highlight td {
+    background: var(--accent-dim); color: var(--text);
+}
+tbody tr.highlight td.num { color: var(--accent); font-weight: 600; }
+
+/* Callout — Cycle 23: editorial sidebar style, sentence-case title, no card chrome */
+.callout {
+    border-left: 2px solid var(--accent);
+    /* padding-top:14pt survives page-break overflow (where margin-top
+       would collapse to 0 because the callout lands at the top of a
+       fresh print page); margin-top handles normal-flow inter-block
+       spacing via collapse with preceding margin-bottom. */
+    padding: 14pt 0 4pt 14pt;
+    margin: 6pt 0 10pt 0;
+}
+.callout .title {
+    font-family: var(--font-display); font-size: 11pt;
+    color: var(--accent); margin-bottom: 5pt; font-weight: 500;
+    /* Cycle 23: was uppercase letterspaced "DECK CALLOUT" — now editorial sidebar heading */
+}
+.callout p {
+    margin-bottom: 0; color: var(--text); font-weight: 400;
+    font-size: 9.5pt; line-height: 1.45;
+}
+.callout p + p { margin-top: 6pt; }
+
+/* Pullquote — Cycle 23: editorial-grade, sentence case, larger, more breathing room */
+.pullquote {
+    font-family: var(--font-display); font-size: 18pt;
+    font-weight: 400; line-height: 1.35; letter-spacing: -0.3px;
+    color: var(--text);
+    border-left: 3px solid var(--accent);
+    padding: 6pt 0 6pt 16pt; margin: 18pt 0; max-width: 90%;
+    text-wrap: balance;
+    /* Cycle 23: was uppercase 14pt — now sentence case 18pt for proclaim-not-shout
+       Cycle 29: text-wrap: balance prevents widow/orphan lines */
+}
+.pullquote.small { font-size: 14pt; }
+.pullquote .em { color: var(--accent); font-style: italic; }
+
+/* Emotional inflection (Cycle 39 — italic body emphasis paired with accent
+   color when used in regular prose; subtle .feeling class for tonal shifts). */
+p .em, p.lede .em, .callout .em {
+    font-style: italic; color: var(--accent); font-weight: 500;
+}
+.feeling {
+    font-style: italic; color: var(--text);
+}
+
+/* Channel bars */
+.channel-bars { display: flex; flex-direction: column; gap: 5pt; margin: 6pt 0; }
+.channel-bar {
+    display: grid; grid-template-columns: 55mm 1fr 18mm;
+    gap: 8pt; align-items: center; font-size: 8.5pt;
+}
+.channel-name { color: var(--text-dim); font-weight: 400; }
+.channel-name.dim { color: var(--text-dimmer); }
+.channel-track {
+    height: 10pt; background: var(--bg-panel);
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.channel-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, rgba(167,139,250,0.7) 100%);
+}
+.channel-fill.dim {
+    background: var(--text-dimmer);
+}
+.channel-pct {
+    text-align: right; color: var(--text);
+    font-weight: 500; font-size: 8.5pt;
+}
+.channel-pct.dim { color: var(--text-dimmer); }
+
+/* Chart */
+.chart-wrap {
+    background: var(--bg-panel); border: 1px solid var(--border);
+    padding: 10pt 12pt; margin: 8pt 0; border-radius: 2pt;
+}
+.chart-title {
+    font-family: var(--font-display); font-size: 10pt;
+    color: var(--text-dim); margin-bottom: 6pt; font-weight: 500;
+    /* Cycle 23: was uppercase letterspaced — now sentence case display */
+}
+.chart-legend {
+    display: flex; gap: 14pt; margin-top: 5pt;
+    font-size: 7.5pt; color: var(--text-dim); justify-content: center;
+    flex-wrap: wrap;
+}
+.legend-dot {
+    display: inline-block; width: 8pt; height: 8pt;
+    border-radius: 50%; vertical-align: middle; margin-right: 4pt;
+}
+
+/* Loom media image */
+.media-image {
+    margin: 10pt 0 12pt;
+    break-inside: avoid;
+}
+.media-image-frame {
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    border-radius: 3pt;
+    overflow: hidden;
+}
+.media-image.frame-plain .media-image-frame {
+    border: none;
+    background: transparent;
+}
+.media-image.frame-bleed {
+    margin-left: -10mm;
+    margin-right: -16mm;
+}
+.media-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.media-image-placeholder {
+    min-height: 72mm;
+    display: grid;
+    place-items: center;
+    padding: 14pt;
+    color: var(--text-dim);
+    font-size: 8.5pt;
+    text-align: center;
+}
+.media-image-caption {
+    margin-top: 5pt;
+    color: var(--text-dim);
+    font-size: 8pt;
+    line-height: 1.35;
+}
+.media-image-receipt {
+    display: block;
+    margin-top: 3pt;
+    color: var(--text-dimmer);
+    font-size: 7pt;
+    font-family: var(--font-display);
+}
+
+/* Ask table */
+.ask-table {
+    background: var(--bg-panel); border: 1px solid var(--border-strong);
+    padding: 0; margin: 10pt 0; border-radius: 2pt; overflow: hidden;
+}
+.ask-row {
+    display: grid; grid-template-columns: 14mm 1fr auto;
+    grid-column-gap: 10pt;
+    padding: 10pt 14pt; border-bottom: 1px solid var(--border);
+    align-items: center;
+}
+.ask-row:last-child { border-bottom: none; }
+.ask-num {
+    font-family: var(--font-display); font-size: 20pt;
+    color: var(--accent); font-weight: 400; line-height: 1;
+}
+.ask-label { color: var(--text); font-size: 10pt; font-weight: 400; }
+.ask-label .dim {
+    color: var(--text-dimmer); display: block;
+    font-size: 8pt; margin-top: 2pt; font-weight: 300; line-height: 1.35;
+}
+.ask-pill {
+    justify-self: end; font-family: var(--font-display);
+    font-size: 7.5pt; color: var(--accent); font-weight: 500;
+    /* Cycle 34: editorial pill — accent-tinted bg, thin border, capsule
+       rounded corners. */
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    padding: 3pt 9pt;
+    border-radius: 999pt;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-size: 7pt;
+    letter-spacing: 1.5px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* Columns */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9pt; }
+.four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 7pt; }
+
+.col-card {
+    background: var(--bg-panel); border: 1px solid var(--border);
+    padding: 12pt 13pt; border-radius: 3pt;
+    position: relative;
+}
+.col-card ul.bare { font-size: 9pt; line-height: 1.4; }
+.col-card ul.bare li { margin-bottom: 3pt; }
+.col-card.accent {
+    background: var(--accent-dim); border-color: var(--accent);
+}
+.col-card p { color: var(--text); font-size: 9.5pt; line-height: 1.5; }
+
+/* Pillar variant — distinct treatment from default col-card. Top-stripe
+   accent + accent-colored eyebrow so pillar columns read as labeled
+   claims. Default .col-card (founders) has NO accent stroke — recovers
+   horizontal text width per creator's May 23 evening direction. */
+.col-card.pillar {
+    border-top: 2pt solid var(--accent);
+    padding-top: 11pt;
+}
+.col-card.pillar .col-card-eyebrow {
+    color: var(--accent);
+    letter-spacing: 0.08em;
+}
+
+.note {
+    font-size: 7.5pt; color: var(--text-dimmer);
+    font-style: italic; margin-top: 6pt; font-weight: 300; line-height: 1.4;
+}
+
+/* Status pills — semantic color coding (success/warning/error/info)
+   Use inline as <span class="status status-success">live</span> in table
+   cells. Each color has ONE meaning per design canon. */
+.status {
+    display: inline-block;
+    font-size: 7.5pt; font-weight: 600;
+    padding: 2pt 7pt; border-radius: 999pt;
+    letter-spacing: 0.6px; text-transform: uppercase;
+    line-height: 1.3; white-space: nowrap;
+}
+.status-success { color: var(--status-success); background: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.3); }
+.status-warning { color: var(--status-warning); background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.3); }
+.status-error   { color: var(--status-error);   background: rgba(248, 113, 113, 0.12); border: 1px solid rgba(248, 113, 113, 0.3); }
+.status-info    { color: var(--status-info);    background: rgba(96, 165, 250, 0.12); border: 1px solid rgba(96, 165, 250, 0.3); }
+
+ul { font-size: 9pt; }
+ul.bare { list-style: none; padding: 0; color: var(--text-dim); font-weight: 300; }
+ul.bare li { padding: 4pt 0; border-bottom: 1px solid var(--border); }
+ul.bare li:last-child { border-bottom: none; }
+
+.confidentiality {
+    text-align: center; font-size: 8pt; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--text-dimmer); margin-top: 20pt;
+}
+
+
+</style>
+</head>
+<body>
+<section class="page cover">
+  <div class="cover-top">
+    <span>StarHub Studios PBC — Jack Polo · Gheric Speiginer · John LaBrucherie</span>
+    <span>August 2026</span>
+  </div>
+  <div class="cover-center">
+    <div class="cover-lockup">
+      <div class="cover-wordmark">StarHub Studios</div>
+    </div>
+    <div class="cover-eyebrow">EMPATHY · Joint Venture · Heads of Terms</div>
+    <h1 class="cover-title">You keep the work. <span class="accent">We build the world around it.</span></h1>
+    <p class="cover-sub">Three instruments, each answering a different question, none of them quietly changing into another. You bring the film and keep the underlying ownership. We bring the studio system. Capital funds a defined plan — after the plan exists.</p>
+    <dl class="cover-meta">
+      <div><dt>Instrument I</dt><dd>The producing engagement</dd></div>
+      <div><dt>Instrument II</dt><dd>The platform venture</dd></div>
+      <div><dt>Instrument III</dt><dd>The film SPV</dd></div>
+    </dl>
+  </div>
+  <div class="cover-bottom">
+    <span>starhubstudios.com</span>
+    <span class="mark">Confidential</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="page-header">
+    <span>section</span>
+    <span class="mark">01 · The Parties</span>
+  </div>
+  <div class="section-eyebrow">Who is who, and what each brings</div>
+  <h1 class="section">Not a vendor. Not a customer. <span class="accent">A studio admission.</span></h1>
+<p class="lede"><strong>You</strong> &mdash; Dr. Natalie Petouhoff, creator and rightsholder of <em>EMPATHY: The Pursuit of Joy</em>, Wall Street Journal best-selling author &mdash; bring the work, and keep the underlying ownership of it. <strong>Josh Sikkema's</strong> existing co-ownership position is respected and unchanged except by his own express agreement. <strong>StarHub Studios PBC</strong> brings the production system: orchestration, packaging, technology, the digital world around the film, and the fundraising machinery.</p>
+<div class="callout">
+  <div class="title">◆ The discipline underneath every clause</div>
+  <p>Rights ⊥ Costs ⊥ Capital ⊥ Upside — four ledgers kept orthogonal until a contract explicitly connects them. No contribution silently changes economic form. Nobody is paid in your ownership. Temporary scarcity creates temporary claims, never permanent dispossession. Where you see something left open in this document, it is open on purpose, and it says who closes it.</p>
+</div>
+  <div class="page-footer">
+    <span class="page-footer-brand"><span class="brand-mark">mythOS</span> · loom</span>
+    <span class="page-footer-mark">01 · The Parties</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="page-header">
+    <span>section</span>
+    <span class="mark">02 · The Three Instruments</span>
+  </div>
+  <div class="section-eyebrow">Why three, and not one</div>
+  <h1 class="section">Each answers <span class="accent">a different question.</span></h1>
+<table>
+<thead><tr>
+<th>Instrument</th>
+<th>The question it answers</th>
+<th>When it signs</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>I · The Producing Engagement</strong><br />Bounded custody of your ~25&nbsp;TB archive, to discover the strongest film it can sustain.</td>
+<td>What is the movie, actually?</td>
+<td>Papered by counsel on your signature here; five commercial variables priced together first</td>
+</tr>
+<tr>
+<td><strong>II · The Platform Venture</strong><br />We build and run your one-URL digital world: the site, fan-funding, merch, subscription audio.</td>
+<td>How does the community fund and follow the work, continuously?</td>
+<td>Papered by counsel on your signature here; terms fixed in §04 below</td>
+</tr>
+<tr>
+<td><strong>III · The Film SPV</strong><br />A temporary, mandate-bound vehicle that finances, produces, exploits, settles &mdash; then reverts and dissolves.</td>
+<td>How does the film get capitalized without you surrendering ownership?</td>
+<td><strong>Later, by design.</strong> It cannot honestly close before a budget exists</td>
+</tr>
+</tbody></table>
+<p class="note">Keeping them separate is what protects you: producing labour is never paid in rights, platform commerce never touches film capital, and film investors never acquire creative omnipotence.</p>
+  <div class="page-footer">
+    <span class="page-footer-brand"><span class="brand-mark">mythOS</span> · loom</span>
+    <span class="page-footer-mark">02 · The Three Instruments</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="page-header">
+    <span>section</span>
+    <span class="mark">03 · What You Keep</span>
+  </div>
+  <div class="section-eyebrow">The rights ledger — the non-negotiables</div>
+  <h1 class="section">You keep the work. <span class="accent">Everyone else holds a mandate.</span></h1>
+<table>
+<thead><tr>
+<th>Right / authority</th>
+<th>Who holds it</th>
+<th>Bound &amp;amp; reversion</th>
+</tr></thead>
+<tbody>
+<tr class="highlight">
+<td>Underlying IP, authorship, creative sovereignty</td>
+<td><strong>You — 100%, across all three instruments</strong></td>
+<td>Never transferred; never the currency anyone is compensated in</td>
+</tr>
+<tr>
+<td>Josh's co-ownership</td>
+<td>Josh — unchanged</td>
+<td>Restructured only by his express agreement</td>
+</tr>
+<tr>
+<td>Phase I work product (Story Graph, paper edits, registers)</td>
+<td>OPEN — priced with Instrument I</td>
+<td>Ownership and each party's licence resolved in that instrument</td>
+</tr>
+<tr>
+<td>Platform operations (site, fan-funding, merch, subscription rails)</td>
+<td>StarHub — operating authority only</td>
+<td>Revocable per the platform agreement's exit terms; content and brand remain yours</td>
+</tr>
+<tr>
+<td>Production rights for this film</td>
+<td>The film SPV</td>
+<td>Only what financing, producing, exploiting and settling require; reverts at mandate completion</td>
+</tr>
+<tr>
+<td>Distribution &amp; exploitation</td>
+<td>Distributors, via the SPV</td>
+<td>Bounded by territory, medium and time — never perpetual by default</td>
+</tr>
+<tr>
+<td>Sequel, remake, series derivatives</td>
+<td><strong>You</strong>, unless expressly negotiated</td>
+<td>A series in development is yours to place — never an implied grant</td>
+</tr>
+</tbody></table>
+  <div class="page-footer">
+    <span class="page-footer-brand"><span class="brand-mark">mythOS</span> · loom</span>
+    <span class="page-footer-mark">03 · What You Keep</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="page-header">
+    <span>section</span>
+    <span class="mark">04 · Instrument II — The Platform Terms</span>
+  </div>
+  <div class="section-eyebrow">The commercial terms, fixed by this signature</div>
+  <h1 class="section">No upfront cost to you. <span class="accent">We carry it, and recover it off the top.</span></h1>
+<table>
+<thead><tr>
+<th>Term</th>
+<th>Value</th>
+<th>Notes</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Scope</td>
+<td><strong>Launch</strong> — the site (built), the funnel, the brand system, the document library, the growth plan, 90 days of support</td>
+<td>The Growth scope, and what it adds, is set out below. You choose the scope; the price follows from it.</td>
+</tr>
+<tr class="highlight">
+<td>Joint-venture share</td>
+<td><strong>30% of gross revenue through the platforms StarHub builds and runs</strong></td>
+<td>StarHub's standard rate — the same 30/70 split every StarHub venture signs. Booked as a venture split in its own ledger, NOT as one of your cost lines: it sits below your operating result, so your engine margin stays your engine margin.</td>
+</tr>
+<tr class="highlight">
+<td>Setup fee</td>
+<td><strong>$50,000 cash — or $65,000 carried</strong></td>
+<td>There is no upfront cost to you. We carry it and recover it off the top when the engine first earns or when you first close commercial capital, whichever comes first. It is $65,000 rather than $50,000 because carrying it is a real cost to us; see the buy-down below.</td>
+</tr>
+<tr>
+<td>Buy-down</td>
+<td>Any amount, any time</td>
+<td>You may pay any portion of the setup fee in cash whenever you wish. Only the unpaid balance carries the uplift, so paying it in full at any point returns it to $50,000.</td>
+</tr>
+<tr>
+<td>Recovery</td>
+<td>Off the top of gross, before the 30/70 split</td>
+<td>And from COMMERCIAL capital only — never from 501(c)(3) film capital. That wall is absolute and it protects you, not us.</td>
+</tr>
+<tr>
+<td>Longstop</td>
+<td>24 months</td>
+<td>If the setup fee has not been recovered from revenue or capital within 24 months, the balance becomes payable. Stated so neither of us is carrying an open-ended obligation.</td>
+</tr>
+<tr>
+<td>Outside the venture</td>
+<td>Film licensing, experiences, curriculum, screenings, exhibitions</td>
+<td>We take nothing on revenue we do not operate</td>
+</tr>
+<tr>
+<td>Review</td>
+<td>Annual; the rate steps down as volume scales</td>
+<td>Written into the agreement, not left to goodwill</td>
+</tr>
+</tbody></table>
+<p class="pullquote">If the engine earns nothing, you owe nothing.</p>
+<p class="note">YOUR MODEL, READ. Your workbook books StarHub at 20% on the Assumptions tab, carried as a cost of revenue in the monthly P&L. Two things follow. The rate is 30%, not 20% — and we would rather correct that with you than have a diligence pass find your own operator's share understated in your own model. And it does not belong in cost of revenue: as a venture split in its own ledger it sits below your operating result, which is both more accurate and considerably kinder to the margin you show an investor. Your gross reconciles to the dollar and is carried unchanged.</p>
+<div class="callout">
+  <div class="title">◆ Launch or Growth — the scope is yours to choose</div>
+  <p><strong>LAUNCH — $50,000 cash / $65,000 carried.</strong> Everything built to date: the site, the funnel, the brand system, the document library, the growth plan, 90 days of support.<br /><br /><strong>GROWTH — $90,000 cash / $117,000 carried.</strong> All of Launch, plus six months of us running it: the e-commerce build, the fan-funding campaign, the migration off your current email platform, and the marketing.<br /><br />Items 5 and 6 on your own agenda &mdash; selling the trip, the e-commerce steps, the fan-funding campaign, the back end &mdash; are Growth. What exists today is Launch. <strong>The path we would suggest: begin at Launch and upgrade to Growth when funding lands.</strong> Both are carried either way, so the difference triggers on the same event, and the six months of marketing then begins when there is money to market with.</p>
+</div>
+<p class="note">IF LAUNCH IS CHOSEN, THE GROWTH WORK IS OUT OF SCOPE. Marketing, e-commerce build and campaign operation are quoted separately when you want them. This sentence exists because the alternative — doing the larger work inside the smaller price because nobody wrote down which was which — is how good partnerships quietly go sour.</p>
+<div class="callout">
+  <div class="title">◆ Why the setup fee is carried at all</div>
+  <p>You are opening doors: introductions to investors for the mythOS raise, and referrals to people in your circle who need the work we do. Those introductions are why we carry the fee rather than ask for it at signature. Neither is an obligation and neither carries a quota &mdash; you cannot promise what an investor decides. But they are real consideration, they are part of what you bring to this, and they are named here rather than left as an understanding.</p>
+</div>
+  <div class="page-footer">
+    <span class="page-footer-brand"><span class="brand-mark">mythOS</span> · loom</span>
+    <span class="page-footer-mark">04 · Instrument II — The Platform Terms</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="page-header">
+    <span>section</span>
+    <span class="mark">05 · The Three Phases</span>
+  </div>
+  <div class="section-eyebrow">How the film itself proceeds</div>
+  <h1 class="section">Each phase ends in <span class="accent">a decision that is yours.</span></h1>
+<table>
+<thead><tr>
+<th>Phase</th>
+<th>What it produces</th>
+<th>The decision it hands you</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>I · Discover the Movie</strong></td>
+<td>Source-of-Truth Story Graph · Competing Paper Edits · Missing Story Beats Register · Production Requirements Map</td>
+<td>Which film the existing archive actually supports — before a dollar of new production</td>
+</tr>
+<tr>
+<td><strong>II · The Production Mandate</strong></td>
+<td>The Authorized Cut Mandate · Production Schedule · Fully-Loaded Budget · Rights &amp; Clearances Register</td>
+<td>Whether to make it, on a schedule and at a cost you have seen in full</td>
+</tr>
+<tr>
+<td><strong>III · Capitalization</strong></td>
+<td>Capitalization Requirement · Capital Structure · Settlement Waterfall · Executed Instruments</td>
+<td>How it gets funded, and who is owed what, in what order</td>
+</tr>
+</tbody></table>
+<div class="callout">
+  <div class="title">◆ The budget determines the raise — never the reverse</div>
+  <p>The ~$1M figure in circulation is your capitalization hypothesis, and it has been treated as exactly that at every step: never adopted, never quietly used as a target. Phase II produces the real number by costing the authorized schedule honestly. If it is larger, that is what the raise becomes. If it is smaller, nobody raises money they do not need. A budget written backwards from a raise target is how films run out of money in post.</p>
+</div>
+  <div class="page-footer">
+    <span class="page-footer-brand"><span class="brand-mark">mythOS</span> · loom</span>
+    <span class="page-footer-mark">05 · The Three Phases</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="page-header">
+    <span>section</span>
+    <span class="mark">06 · Instrument III — How the SPV Protects You</span>
+  </div>
+  <div class="section-eyebrow">The clauses that matter most when money arrives</div>
+  <h1 class="section">The raise is an output. <span class="accent">The waterfall comes before any percentage.</span></h1>
+<p>The SPV activates only when the capitalization requirement <strong>falls out of the Phase II budget</strong> — whatever it sums to. Until then no raise number is quoted, by us or on your behalf. These four clauses are written into it, and each one exists because of a way creators routinely lose films.</p>
+<table>
+<thead><tr>
+<th>Clause</th>
+<th>What it means for you</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Deferral accrues; capitalization cures it</strong></td>
+<td>Anyone who defers payment before close gets paid at financing close or per agreed draws. Deferred work converts into risk capital ONLY by express election — never silently. Nobody accumulates a claim on your film by quietly working unpaid.</td>
+</tr>
+<tr>
+<td><strong>Waterfall before percentages</strong></td>
+<td>Tier order is fixed first (approved expenses → capital recoupment → premium → residual pool → regeneration), and every participation names its tier. &ldquo;Percentage of net&rdquo; is banned unless &ldquo;net&rdquo; points at a defined tier — which is the clause that makes Hollywood accounting impossible here.</td>
+</tr>
+<tr>
+<td><strong>StarHub's back end is earned, not inherited</strong></td>
+<td>Our participation is justified by continuing contribution — packaging, risk, financing role, the platform — never merely by having once deferred payment.</td>
+</tr>
+<tr>
+<td><strong>Mandate completion</strong></td>
+<td>When the mandate completes, rights revert, claims settle, and the vehicle dissolves. The temporary economic organism does not outlive its purpose.</td>
+</tr>
+</tbody></table>
+  <div class="page-footer">
+    <span class="page-footer-brand"><span class="brand-mark">mythOS</span> · loom</span>
+    <span class="page-footer-mark">06 · Instrument III — How the SPV Protects You</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="page-header">
+    <span>section</span>
+    <span class="mark">07 · What Is Still Open</span>
+  </div>
+  <div class="section-eyebrow">Declared, not papered over</div>
+  <h1 class="section">Ten slots, <span class="accent">each with a name on it.</span></h1>
+<p>These are listed because you should see them before you sign, not discover them at closing. Four are yours; the rest are ours or shared. Two of them &mdash; <strong>#5 and #10</strong> &mdash; can hold up the definitive agreements, so they are worth reading first.</p>
+<table>
+<thead><tr>
+<th>#</th>
+<th>Open slot</th>
+<th>Instrument</th>
+<th>Who closes it</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Templeton proposal budget — replaces the proposed $850K allocation</td>
+<td>III</td>
+<td>You — highest priority; investors ask for it by name</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Spend to date, and by which entity</td>
+<td>III</td>
+<td>You &amp; Josh</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Producer fee — John LaBrucherie</td>
+<td>I / III</td>
+<td>Priced together, next conversation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>StarHub studio-services line</td>
+<td>III</td>
+<td>Priced together, next conversation</td>
+</tr>
+<tr class="highlight">
+<td>5</td>
+<td><strong>Contracting entity</strong> — you personally, How to Be a Good Human (Delaware PBC), or lanes routed through the From The Heart Productions 501(c)(3) fiscal sponsorship. <strong>Sub-blocker: the PBC ↔ JS Films chain of title is undocumented</strong> — no signed assignments; your own memo says no investor money until it is papered.</td>
+<td>All</td>
+<td><strong>You &amp; Josh, with counsel — this gates signature AND capital.</strong> We can price the chain-of-title cleanup as Instrument-I studio services if that helps.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Phase I fee and its five commercial variables</td>
+<td>I</td>
+<td>Principals — already framed in the Phase I paper</td>
+</tr>
+<tr>
+<td>7</td>
+<td>SPV terms — the capital premium tier</td>
+<td>III</td>
+<td>With financing counsel</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Residual pool design — tier-4 splits</td>
+<td>III</td>
+<td>All parties, LAST by design — percentages come last</td>
+</tr>
+<tr>
+<td>9</td>
+<td>JV-entity equity, if any entity is formed</td>
+<td>II</td>
+<td>Principals. Our default is participation via defined tiers, not equity in your world; any equity position is an explicit decision, never a template default</td>
+</tr>
+<tr class="highlight">
+<td>10</td>
+<td><strong>The Chuck &amp; Andrea origination MOU</strong> — 5% on introduced capital that closes, six-month window from April 1 2026 (≈ October 1 expiry)</td>
+<td>III</td>
+<td>Yours to confirm status. It is an accrued lane the waterfall must absorb; better placed now than renegotiated later</td>
+</tr>
+</tbody></table>
+  <div class="page-footer">
+    <span class="page-footer-brand"><span class="brand-mark">mythOS</span> · loom</span>
+    <span class="page-footer-mark">07 · What Is Still Open</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="page-header">
+    <span>section</span>
+    <span class="mark">08 · What This Signature Does</span>
+  </div>
+  <div class="section-eyebrow">Plainly, so there is no ambiguity</div>
+  <h1 class="section">Signing this <span class="accent">starts the work.</span></h1>
+<div class="two-col">
+<div class="col-card">
+  <h3 class="mini">What it does</h3>
+  <p>Fixes the frame in §01–02, the rights ledger in §03, and Instrument II's commercial terms in §04. Authorizes counsel to draft Instruments I and II for execution. Confirms the NDA is in force. Starts Phase I on the schedule the parties agree.</p>
+</div>
+<div class="col-card accent">
+  <h3 class="mini">What it does not do</h3>
+  <p>It does not transfer any ownership. It does not close Instrument III — the SPV activates only when a budget exists and the capitalization requirement falls out of it. It does not commit you to Phase II or Phase III; each is a separate decision you make with the prior phase's evidence in hand.</p>
+</div>
+</div>
+<div class="callout">
+  <div class="title">◆ The path from here</div>
+  <p>Signature on these heads of terms → counsel drafts Instruments I and II → the open slots close in the order above, with #5 first because it gates both signature and capital → Phase I begins → Phase II produces the budget → Instrument III is structured against that budget, and only then does anyone name a raise number.</p>
+</div>
+<h2 class="sub">Agreed and accepted</h2>
+<table>
+<thead><tr>
+<th>Party</th>
+<th>Signature</th>
+<th>Date</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Dr. Natalie Petouhoff</strong><br />Creator &amp; rightsholder, EMPATHY: The Pursuit of Joy</td>
+<td>&nbsp;<br />&nbsp;<br />______________________________</td>
+<td>&nbsp;<br />&nbsp;<br />______________</td>
+</tr>
+<tr>
+<td><strong>Josh Sikkema</strong><br />Co-owner &mdash; acknowledging §03 as it concerns his position</td>
+<td>&nbsp;<br />&nbsp;<br />______________________________</td>
+<td>&nbsp;<br />&nbsp;<br />______________</td>
+</tr>
+<tr>
+<td><strong>StarHub Studios PBC</strong><br />By: Jack Polo, Chief Executive Officer &mdash; authorized signatory</td>
+<td>&nbsp;<br />&nbsp;<br />______________________________</td>
+<td>&nbsp;<br />&nbsp;<br />______________</td>
+</tr>
+<tr>
+<td><strong>StarHub Studios PBC</strong><br />Countersigned: Gheric Speiginer, Co-founder &amp; Chief Technology Officer</td>
+<td>&nbsp;<br />&nbsp;<br />______________________________</td>
+<td>&nbsp;<br />&nbsp;<br />______________</td>
+</tr>
+</tbody></table>
+<h2 class="sub">Acknowledged</h2>
+<table>
+<thead><tr>
+<th>Party</th>
+<th>Signature</th>
+<th>Date</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>John LaBrucherie</strong><br />Co-founder, StarHub Studios PBC &mdash; acknowledging §07 slot 3 (producer fee), which is priced at arm&rsquo;s length in the definitive instruments and not by this signature</td>
+<td>&nbsp;<br />&nbsp;<br />______________________________</td>
+<td>&nbsp;<br />&nbsp;<br />______________</td>
+</tr>
+</tbody></table>
+<p class="note">John LaBrucherie acknowledges rather than executes on StarHub&rsquo;s behalf. He holds a personal producer-fee position in this project (§07 slot 3); signing for the company that will negotiate that fee would place him on both sides of it. His compensation is papered separately, at arm&rsquo;s length, in Instrument I or III.</p>
+<p class="note">These heads of terms are confidential and subject to the definitive agreements described within. Nothing here is legal or financial advice, an offer to sell, or a solicitation of an investment in any security. Each party should take its own counsel before execution; where these terms and the definitive agreements differ, the definitive agreements govern.</p>
+  <div class="page-footer">
+    <span class="page-footer-brand"><span class="brand-mark">mythOS</span> · loom</span>
+    <span class="page-footer-mark">08 · What This Signature Does</span>
+  </div>
+</section>
+</body>
+</html>
