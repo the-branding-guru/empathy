@@ -723,7 +723,51 @@ ul.bare li:last-child { border-bottom: none; }
 }
 
 
-</style>
+
+    /* ── SCREEN, SMALL VIEWPORTS ───────────────────────────────────────────
+       This is a paginated legal instrument laid out at US Letter (215.9mm),
+       which is correct for print and unreadable on a phone: at 320px the
+       document measured 816px wide and the cover title ran from 83px to
+       711px, entirely off-screen. A counterparty sent this link will very
+       often open it on a phone, so it reflows rather than asking them to pan
+       across a page of contract text.
+
+       SCREEN ONLY. @page and the print rules above are untouched — printed
+       and PDF output stay exactly as laid out. */
+    @media screen and (max-width: 860px) {
+      html, body { max-width: 100%; overflow-x: hidden; }
+      .page {
+        width: 100%;
+        max-width: 100%;
+        min-height: 0;
+        padding: 1.6rem 1.15rem;
+        margin: 0 0 0.75rem;
+        box-shadow: none;
+        page-break-before: auto;
+      }
+      /* THE COVER is an explicit A4 box — width/height/min-width/min-height
+         all set redundantly and deliberately, to defeat a Chrome print quirk
+         that once rendered it at ~83% of A4. min-width: 210mm is a 794px
+         floor that `width: 100%` cannot beat, which is why the cover title
+         still ran 15px→778px after the page itself was fluid. Release the
+         floor on screen only; the print rules keep every one of them. */
+      .cover {
+        width: 100%; min-width: 0;
+        height: auto; min-height: 0;
+        padding: 2.2rem 1.15rem 1.6rem;
+      }
+      .cover-title { font-size: clamp(1.9rem, 8.5vw, 3rem); }
+      .cover-sub { max-width: 100%; font-size: 1rem; }
+
+      /* Anything else pinned to a physical measure. */
+      [style*="210mm"], [style*="215.9mm"] { width: 100% !important; max-width: 100% !important; }
+      table, pre, img, figure { max-width: 100%; }
+      table { display: block; overflow-x: auto; }
+      /* Long unbroken strings — signature lines, hashes, URLs — must wrap
+         rather than push the page wide. */
+      body { overflow-wrap: anywhere; }
+    }
+  </style>
 </head>
 <body>
 <section class="page cover">
