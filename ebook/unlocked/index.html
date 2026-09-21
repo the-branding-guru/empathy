@@ -31,38 +31,42 @@
   var send=function(){try{fetch('https://fleet-analytics.the-branding-guru.workers.dev/api/track',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({event:'pageview',vid:v,ref:document.referrer||null,props:{site:'empathy',path:location.pathname+location.search}}),keepalive:true}).catch(function(){});}catch(e){}};
   send();var p=history.pushState;history.pushState=function(){p.apply(this,arguments);send();};addEventListener('popstate',send);}catch(e){}})();
   </script>
-  <script type="module" crossorigin src="/empathy/assets/index-BqhviNas.js"></script>
-  <link rel="stylesheet" crossorigin href="/empathy/assets/index-CjbcrGA1.css">
+  <script type="module" crossorigin src="/empathy/assets/index-DtsAMnA1.js"></script>
+  <link rel="stylesheet" crossorigin href="/empathy/assets/index-BPbDa3kD.css">
 </head>
   <body>
     <div id="root"></div>
-    <!-- A/B PALETTE TOGGLE (Sep 16 2026, for Natalie's review).
-         Palette A is the live site. Palette B is burgundy · gold · white.
-         The class is read BEFORE paint from the URL or localStorage so the
-         page never flashes the wrong palette. Remove this block and the
-         .theme-bgw CSS together when the choice is made. -->
+    <!-- PALETTE TOGGLE (Sep 16 2026 A/B; Sep 21 2026 adds C, Natalie's own
+         "Tibetan Robe" sheet, and makes it the default she sees first).
+         A = the original parchment. B = burgundy · gold · white. C = ivory ·
+         burgundy · saffron · gold. The class is read BEFORE paint from the URL
+         or localStorage so the page never flashes the wrong palette. Remove
+         this block and the theme CSS together when the choice is made. -->
     <script>
       (function () {
+        var THEMES = { a: '', b: 'theme-bgw', c: 'theme-robe' };
         try {
           var q = new URLSearchParams(location.search).get('theme');
-          if (q === 'bgw' || q === 'b') localStorage.setItem('empathy.theme', 'bgw');
-          if (q === 'a') localStorage.removeItem('empathy.theme');
-          if (localStorage.getItem('empathy.theme') === 'bgw')
-            document.documentElement.classList.add('theme-bgw');
+          if (q === 'bgw') q = 'b';
+          if (q === 'robe') q = 'c';
+          if (q === 'a' || q === 'b' || q === 'c') localStorage.setItem('empathy.theme', q);
+          var t = localStorage.getItem('empathy.theme');
+          if (t === 'bgw') t = 'b';            // the Sep 16 stored value
+          if (!t) t = 'c';                     // Natalie's palette is the default
+          if (THEMES[t]) document.documentElement.classList.add(THEMES[t]);
         } catch (e) {}
         addEventListener('DOMContentLoaded', function () {
-          var bgw = document.documentElement.classList.contains('theme-bgw');
+          var cur = 'c';
+          try { cur = localStorage.getItem('empathy.theme') || 'c'; if (cur === 'bgw') cur = 'b'; } catch (e) {}
           var w = document.createElement('div');
           w.className = 'ab-pill';
           w.innerHTML =
-            '<button data-t="a"' + (bgw ? '' : ' class="on"') + '>A · Current</button>' +
-            '<button data-t="b"' + (bgw ? ' class="on"' : '') + '>B · Burgundy</button>';
+            '<button data-t="a"' + (cur === 'a' ? ' class="on"' : '') + '>A · Parchment</button>' +
+            '<button data-t="b"' + (cur === 'b' ? ' class="on"' : '') + '>B · Burgundy</button>' +
+            '<button data-t="c"' + (cur === 'c' ? ' class="on"' : '') + '>C · Robe</button>';
           w.addEventListener('click', function (e) {
             var b = e.target.closest('button'); if (!b) return;
-            try {
-              if (b.dataset.t === 'b') localStorage.setItem('empathy.theme', 'bgw');
-              else localStorage.removeItem('empathy.theme');
-            } catch (err) {}
+            try { localStorage.setItem('empathy.theme', b.dataset.t); } catch (err) {}
             location.reload();
           });
           document.body.appendChild(w);
