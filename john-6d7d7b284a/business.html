@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Empathy: The Pursuit of Joy — The Business</title>
+<style>
+
+
+:root {
+    --bg: #0e1420;
+    --bg-panel: #16202f;
+    --bg-panel-accent: rgba(212,169,90,0.10);
+    --text: #f2ead8;
+    --text-dim: #a8b0bd;
+    --text-dimmer: rgba(255,255,255,0.40);
+    --text-dimmest: rgba(255,255,255,0.18);
+    --accent: #d4a95a;
+    --accent-glow: rgba(212,169,90,0.45);
+    --accent-dim: rgba(212,169,90,0.14);
+    --secondary: #3d8c8c;
+    --status-success: #4ade80;
+    --status-warning: #fbbf24;
+    --status-error: #f87171;
+    --status-info: #60a5fa;
+    --border: rgba(212,169,90,0.20);
+    --border-strong: rgba(255,255,255,0.16);
+    --font-display: 'Palatino Linotype', Palatino, Georgia, serif;
+    --font-body: 'Palatino Linotype', Palatino, Georgia, serif;
+    --font-brand: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 10pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    /* Better serif rendering on dark backgrounds */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+
+@page {
+    /* Use explicit mm dimensions instead of named size keyword.
+       Chrome's named-size handling can produce slightly smaller
+       printable areas than the literal page dimensions, leaving
+       gaps at right/bottom edges. Explicit mm forces full bleed. */
+    size: 279.4mm 215.9mm;
+    margin: 0;
+}
+
+.page {
+    width: 279.4mm;
+    padding: 0 0 0 0;
+    /* Each section starts on a fresh page (page-break-before: always)
+       — never orphaned at the bottom of the prior page. Content within
+       the section CAN break across page boundaries naturally
+       (page-break-inside NOT avoid on .page itself; tables/callouts
+       still keep their own atomicity below). This keeps section
+       openings clean and visually anchored while allowing long
+       sections to spill content naturally. */
+    page-break-before: always;
+    page-break-after: auto;
+    position: relative;
+    box-sizing: border-box;
+    margin-bottom: 0;
+}
+
+/* First content section can flow right after cover; cover keeps standalone */
+.page.cover { page-break-after: always; min-height: 287mm; margin-bottom: 0; }
+.page:last-child { page-break-after: auto; margin-bottom: 0; }
+/* Section opener stays together — heading + eyebrow + first content block.
+   Prevents the heading-orphaned-with-empty-body pattern at page tops. */
+.page > .page-header,
+.page > .section-eyebrow,
+.page > h1.section,
+.page > h1.section-heading {
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+/* Prevent orphaned headings / table rows */
+h1, h2, h3 { page-break-after: avoid; break-after: avoid; }
+table, .callout, .chart-wrap, .ask-table, .kpi-strip,
+.pullquote, .channel-bars, .rule-grid, .boundary-table, .kpi {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+tr { page-break-inside: avoid; break-inside: avoid; }
+
+/* ---------------------------------------------------------------------------
+   SCREEN: paper geometry is for paper.
+
+   .page is 279.4mm wide because that is what the sheet is, and on a printed
+   page that is exactly right. A phone is not a sheet. At 320px the viewport is
+   286px of usable width and the page is 794px, so the reader gets a document
+   that scrolls sideways — and inside an iframe there is no pinch-zoom to
+   rescue it, because the frame, not the reader, owns the viewport.
+
+   This is the same class of defect as the 70mm cover-meta column: a print unit
+   surviving into a screen context where nothing can absorb it. The fix belongs
+   HERE rather than in one document's stylesheet, because every document
+   composed through the Loom inherits this rule and would otherwise each need
+   its own patch — and the one that shipped without it is how a reader met an
+   agreement they could not read.
+
+   @media screen leaves the print path untouched: the sheet is still 279.4mm
+   wide when it is actually a sheet.
+   --------------------------------------------------------------------------- */
+@media screen {
+    .page,
+    .page.cover {
+        width: 100%;
+        min-width: 0;
+        max-width: 279.4mm;
+    }
+    /* Paper margins are generous because paper has room. Below the sheet
+       width they eat the line length they exist to protect. */
+    .page {
+        padding-left: min(0, 6vw);
+        padding-right: min(0, 6vw);
+    }
+    /* A fixed sheet height crops content once the width reflows taller. */
+    .page.cover {
+        height: auto;
+        min-height: 0;
+    }
+    /* Nothing inside may re-impose the sheet's width. */
+    .page * {
+        max-width: 100%;
+    }
+}
+
+
+/* Red rule at left of content pages. The previous design used
+   margin-left:18mm to indent the page from the document edge — but
+   the page was still 210mm wide, producing a 228mm horizontal
+   footprint that overflowed A4 by 18mm and misaligned content with
+   the cover. Drop margin-left; keep width:210mm. The red rule now
+   sits at the page edge, content pages and cover share the same
+   horizontal extents (0..210mm), and screenshots/exports stay
+   in-page-bounds. padding-left provides the visual breathing room
+   inside the rule. */
+.page:not(.cover) {
+    padding-left: 10mm;
+    padding-right: 16mm;
+}
+
+/* Page header — kept uppercase for runner-style nav (semantic micro-label) */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 7pt;
+    margin-bottom: 18pt;
+    font-size: 7.5pt;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+    font-weight: 400;
+}
+.page-header .mark {
+    color: var(--accent);
+    font-weight: 500;
+    font-family: var(--font-display);
+    letter-spacing: 2px;
+}
+
+/* Cycle 26 design rule: page-bottom footer with build-attestation
+   (PILLAR 03 made visible — substrate composes its own evidence). */
+.page-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 4pt;
+    margin-top: 8pt;
+    page-break-before: avoid;
+    break-before: avoid;
+    font-family: var(--font-display);
+    font-size: 7.5pt;
+    color: var(--text-dimmer);
+    font-weight: 400;
+}
+.page-footer-brand { color: var(--text-dim); }
+.page-footer-mark { color: var(--accent); font-weight: 500; }
+
+/* Cover — explicit A4 box. width/height/min-height all redundantly
+   set to defeat any Chrome print quirk that previously rendered the
+   cover at ~83%×87% of A4. */
+.cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* padding 18mm top, 22mm sides, 14mm bottom — content was sitting
+       too far above the page edge with the original 24mm symmetric
+       vertical padding (cover-bottom anchored 24mm above page bottom).
+       Tighter bottom padding pulls the running footer line closer to
+       the page edge, gradient extends visibly to the bottom. */
+    padding: 18mm 22mm 14mm 22mm;
+    box-sizing: border-box;
+    width: 210mm;
+    min-width: 210mm;
+    height: 297mm;
+    min-height: 297mm;
+    margin: 0;
+    background-image: url('assets/candle-room.jpg');
+    /* 100% 100% stretches the image to fill the cover element on
+       both axes regardless of aspect — guarantees edge-to-edge fill
+       even if the image's aspect doesn't exactly match A4 (210:297).
+       For soft-glow gradients the slight stretch is invisible; for
+       photographic content prefer 'cover' (which crops to fill).
+       Pre-render the gradient with bin/render-cover-bg.ts — that
+       helper handles Chrome-headless's bottom-strip artifact via
+       oversize-then-crop. Direct CSS gradients on .cover are a known
+       PDF-render performance trap (transparency-group compositing). */
+    background-size: 100% 100%;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-color: #0e1420;
+}
+.cover::before { display: none; }
+.cover > * { position: relative; z-index: 1; }
+
+.cover-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    font-family: var(--font-display); font-size: 9pt;
+    color: var(--text-dimmer); font-weight: 400;
+    /* Cycle 23: was uppercase letterspaced — now editorial top-runner */
+}
+
+.cover-center { display: flex; flex-direction: column; gap: 28pt; }
+
+/* Brand lockup on cover (Cycle 38 — mark + wordmark side-by-side).
+   When both present, render as horizontal lockup (logo + wordmark form
+   single identity unit). Eyebrow runs as separate line below the lockup. */
+.cover-lockup {
+    display: flex; align-items: center; gap: 12pt;
+    margin-bottom: 6pt;
+}
+.cover-mark {
+    width: 44pt; height: 44pt; flex-shrink: 0;
+}
+.cover-mark svg { width: 100%; height: 100%; display: block; }
+.cover-wordmark {
+    font-family: var(--font-brand);
+    font-size: 36pt; line-height: 1; font-weight: 400;
+    letter-spacing: -0.5px; color: var(--text);
+    /* Preserves canonical capitalization (e.g. "mythOS") — no text-transform */
+}
+.cover-wordmark .accent { color: var(--accent); }
+
+.cover-eyebrow {
+    font-family: var(--font-display); font-size: 10pt;
+    letter-spacing: 6px; text-transform: uppercase; color: var(--accent);
+    font-weight: 400;
+}
+
+/* Brand-mark span — preserves canonical capitalization (e.g. mythOS) inside
+   uppercase-styled contexts. Always render brand wordmarks via this class
+   so text-transform/letter-spacing don't break the canon spelling. */
+.brand-mark {
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    font-family: var(--font-brand, var(--font-display)) !important;
+}
+
+.cover-title {
+    font-family: var(--font-display); font-size: 56pt; line-height: 1.05;
+    letter-spacing: -0.5px; font-weight: 400; color: var(--text);
+    text-wrap: balance;
+    /* No uppercase — cover-eyebrow is the only uppercase on cover (Cycle 23) */
+}
+.cover-title .accent { color: var(--accent); }
+.cover-title .glow { text-shadow: 0 0 30pt rgba(212,169,90,0.45); }
+
+.cover-sub {
+    font-size: 14pt; color: var(--text-dim); font-weight: 300;
+    max-width: 140mm; line-height: 1.4;
+    text-wrap: pretty;
+}
+
+
+/* Cycle 47: vertical-stacked editorial-block (was 2x2 grid — felt form-y).
+   Each row is a label + value with hairline separator. Reads as masthead
+   credits, not a form to fill out. */
+.cover-meta {
+    display: flex; flex-direction: column;
+    padding-top: 22pt;
+    border-top: 1px solid var(--border-strong); font-size: 10pt;
+}
+.cover-meta > div {
+    display: grid; grid-template-columns: 70mm 1fr;
+    align-items: baseline;
+    padding: 9pt 0;
+    border-bottom: 1px solid var(--border);
+}
+.cover-meta > div:last-child { border-bottom: none; }
+.cover-meta dt {
+    font-family: var(--font-display);
+    color: var(--text-dimmer); font-weight: 400;
+    font-size: 8.5pt; letter-spacing: 1.5px; text-transform: uppercase;
+    /* uppercase here = semantic micro-label (one of the 4 surfaces with
+       intentional uppercase per Cycle 23 policy) */
+}
+.cover-meta dd { color: var(--text); font-weight: 400; font-size: 11pt; }
+
+.cover-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--font-display); font-size: 9pt;
+    color: var(--text-dimmer);
+    /* Cycle 23: was uppercase letterspaced — now editorial footer-runner */
+}
+
+/* Section headings — Cycle 23: sentence case (was uppercase tier #2)
+   Cycle 29: text-wrap: balance prevents orphan/widow lines (Chrome 114+,
+   Safari 17.5+, Firefox 121+ — all printers shipping today). */
+h1.section {
+    font-family: var(--font-display); font-size: 20pt;
+    font-weight: 500; line-height: 1.15; letter-spacing: -0.3px;
+    margin-bottom: 8pt; color: var(--text);
+    text-wrap: balance;
+}
+h1.section .accent { color: var(--accent); font-weight: 400; }
+
+.section-eyebrow {
+    font-family: var(--font-display); font-size: 8pt;
+    letter-spacing: 5px; text-transform: uppercase; color: var(--accent);
+    font-weight: 400; margin-bottom: 6pt;
+}
+
+h2.sub {
+    font-family: var(--font-display); font-size: 12pt; font-weight: 500;
+    /* margin-top + padding-top combo: margin collapses with previous
+       block's margin-bottom in normal flow (no double-counting),
+       padding survives the page-break overflow case (where margin
+       collapses to 0 because heading lands at top of a fresh page).
+       Larger padding-top (14pt) ensures meaningful breathing room
+       on overflow pages without inflating normal-flow spacing too
+       much (margin-bottom of preceding block dominates the merge). */
+    margin-top: 4pt;
+    padding-top: 14pt;
+    margin-bottom: 6pt;
+    color: var(--text);
+    letter-spacing: -0.2px;
+    text-wrap: balance;
+}
+
+h3.mini {
+    font-family: var(--font-display); font-size: 12.5pt; font-weight: 600;
+    color: var(--text); font-style: normal;
+    margin: 0 0 8pt; padding-bottom: 6pt;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.25; letter-spacing: -0.2px;
+}
+/* Pillar-style cards: lead identifier (PILLAR 01) becomes a small accent
+   eyebrow above the heading body so the headline lands as a sentence
+   instead of a label. Wraps "PILLAR NN · " automatically via .col-card-eyebrow. */
+.col-card .col-card-eyebrow {
+    display: block;
+    font-size: 7.5pt; letter-spacing: 1.8px; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+    margin-bottom: 4pt;
+}
+.col-card .col-card-eyebrow + .col-card-headline {
+    display: block; color: var(--text); font-weight: 600;
+    font-size: 13pt; line-height: 1.2; letter-spacing: -0.2px;
+}
+
+p { margin-bottom: 6pt; color: var(--text-dim); font-weight: 400; text-wrap: pretty; }
+p.lede {
+    color: var(--text); font-size: 11.5pt; font-weight: 400;
+    line-height: 1.45; margin-bottom: 9pt;
+    text-wrap: pretty;
+}
+/* Tighter table cells for content-dense pages */
+table td, table th { padding: 5pt 8pt; font-size: 9.5pt; line-height: 1.4; }
+/* Tighter section heading margin so more body fits per page */
+h1.section { margin-bottom: 12pt; }
+h2.sub { margin-top: 12pt; margin-bottom: 6pt; }
+/* Emotional/editorial emphasis — strong = gravity, em = voice. Both
+   tightened so emphasis lands instead of slumping into body color. */
+p em, li em, td em { font-style: italic; color: var(--text); font-weight: 400; }
+p strong em, p em strong { color: var(--accent); font-style: italic; font-weight: 500; }
+/* Drop cap on the FIRST lede paragraph in each section (editorial-brief convention) */
+.section-eyebrow + h1.section + p.lede::first-letter,
+h1.section + p.lede::first-letter {
+    font-family: var(--font-display); font-size: 38pt;
+    float: left; line-height: 0.9; padding: 4pt 8pt 0 0;
+    color: var(--accent); font-weight: 400;
+}
+p strong, .white, td strong, li strong { color: var(--text); font-weight: 600; }
+
+/* KPI strip — Cycle 23: editorial-data-block style, not startup-deck-hero-card.
+   Hairline rules between items, no card backgrounds, sentence-case labels,
+   data-font (Monaspace Radon) for numbers per brief-format three-voice cast. */
+.kpi-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin: 14pt 0 16pt;
+    border-top: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border-strong);
+}
+.kpi {
+    padding: 12pt 16pt;
+    border-right: 1px solid var(--border);
+}
+.kpi:first-child { padding-left: 0; }
+.kpi:last-child { padding-right: 0; border-right: none; }
+.kpi-label {
+    font-size: 8pt; color: var(--text-dim);
+    margin-bottom: 6pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.2px;
+}
+.kpi-value {
+    font-family: 'Monaspace Radon', 'Monaspace Argon', var(--font-display);
+    font-size: 26pt; color: var(--text); font-weight: 500; line-height: 1;
+    letter-spacing: -0.8px;
+}
+.kpi-value.accent { color: var(--accent); }
+.kpi-sub {
+    font-size: 8.5pt; color: var(--text-dimmer);
+    margin-top: 7pt; font-weight: 400; line-height: 1.45;
+}
+
+/* Tables — Cycle 23: editorial style, sentence-case headers, refined leading */
+table {
+    width: 100%; border-collapse: collapse;
+    margin: 12pt 0 14pt; font-size: 10pt;
+}
+thead th {
+    text-align: left; font-family: var(--font-display);
+    font-size: 9.5pt; color: var(--text); padding: 8pt 10pt 8pt 0;
+    border-bottom: 1px solid var(--border-strong); font-weight: 500;
+    /* Cycle 23: was uppercase letterspaced — now sentence case display font */
+}
+thead th.num, td.num { text-align: right; }
+tbody td {
+    padding: 7pt 8pt 7pt 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim); font-weight: 400;
+    line-height: 1.5;
+}
+/* Cycle 26 design rule: subtle zebra-stripe for dense-table legibility */
+tbody tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.015);
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody td .white { color: var(--text); font-weight: 500; }
+tbody tr.total td {
+    color: var(--text); font-weight: 600;
+    border-top: 1px solid var(--border-strong);
+    border-bottom: none; padding-top: 7pt;
+}
+tbody tr.total td.num {
+    color: var(--accent); font-size: 10.5pt;
+    font-family: var(--font-display);
+}
+tbody tr.highlight td {
+    background: var(--accent-dim); color: var(--text);
+}
+tbody tr.highlight td.num { color: var(--accent); font-weight: 600; }
+
+/* Callout — Cycle 23: editorial sidebar style, sentence-case title, no card chrome */
+.callout {
+    border-left: 2px solid var(--accent);
+    /* padding-top:14pt survives page-break overflow (where margin-top
+       would collapse to 0 because the callout lands at the top of a
+       fresh print page); margin-top handles normal-flow inter-block
+       spacing via collapse with preceding margin-bottom. */
+    padding: 14pt 0 4pt 14pt;
+    margin: 6pt 0 10pt 0;
+}
+.callout .title {
+    font-family: var(--font-display); font-size: 11pt;
+    color: var(--accent); margin-bottom: 5pt; font-weight: 500;
+    /* Cycle 23: was uppercase letterspaced "DECK CALLOUT" — now editorial sidebar heading */
+}
+.callout p {
+    margin-bottom: 0; color: var(--text); font-weight: 400;
+    font-size: 9.5pt; line-height: 1.45;
+}
+.callout p + p { margin-top: 6pt; }
+
+/* Pullquote — Cycle 23: editorial-grade, sentence case, larger, more breathing room */
+.pullquote {
+    font-family: var(--font-display); font-size: 18pt;
+    font-weight: 400; line-height: 1.35; letter-spacing: -0.3px;
+    color: var(--text);
+    border-left: 3px solid var(--accent);
+    padding: 6pt 0 6pt 16pt; margin: 18pt 0; max-width: 90%;
+    text-wrap: balance;
+    /* Cycle 23: was uppercase 14pt — now sentence case 18pt for proclaim-not-shout
+       Cycle 29: text-wrap: balance prevents widow/orphan lines */
+}
+.pullquote.small { font-size: 14pt; }
+.pullquote .em { color: var(--accent); font-style: italic; }
+
+/* Emotional inflection (Cycle 39 — italic body emphasis paired with accent
+   color when used in regular prose; subtle .feeling class for tonal shifts). */
+p .em, p.lede .em, .callout .em {
+    font-style: italic; color: var(--accent); font-weight: 500;
+}
+.feeling {
+    font-style: italic; color: var(--text);
+}
+
+/* Channel bars */
+.channel-bars { display: flex; flex-direction: column; gap: 5pt; margin: 6pt 0; }
+.channel-bar {
+    display: grid; grid-template-columns: 55mm 1fr 18mm;
+    gap: 8pt; align-items: center; font-size: 8.5pt;
+}
+.channel-name { color: var(--text-dim); font-weight: 400; }
+.channel-name.dim { color: var(--text-dimmer); }
+.channel-track {
+    height: 10pt; background: var(--bg-panel);
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.channel-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, rgba(212,169,90,0.7) 100%);
+}
+.channel-fill.dim {
+    background: var(--text-dimmer);
+}
+.channel-pct {
+    text-align: right; color: var(--text);
+    font-weight: 500; font-size: 8.5pt;
+}
+.channel-pct.dim { color: var(--text-dimmer); }
+
+/* Chart */
+.chart-wrap {
+    background: var(--bg-panel); border: 1px solid var(--border);
+    padding: 10pt 12pt; margin: 8pt 0; border-radius: 2pt;
+}
+.chart-title {
+    font-family: var(--font-display); font-size: 10pt;
+    color: var(--text-dim); margin-bottom: 6pt; font-weight: 500;
+    /* Cycle 23: was uppercase letterspaced — now sentence case display */
+}
+.chart-legend {
+    display: flex; gap: 14pt; margin-top: 5pt;
+    font-size: 7.5pt; color: var(--text-dim); justify-content: center;
+    flex-wrap: wrap;
+}
+.legend-dot {
+    display: inline-block; width: 8pt; height: 8pt;
+    border-radius: 50%; vertical-align: middle; margin-right: 4pt;
+}
+
+/* Loom media image */
+.media-image {
+    margin: 10pt 0 12pt;
+    break-inside: avoid;
+}
+.media-image-frame {
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    border-radius: 3pt;
+    overflow: hidden;
+}
+.media-image.frame-plain .media-image-frame {
+    border: none;
+    background: transparent;
+}
+.media-image.frame-bleed {
+    margin-left: -10mm;
+    margin-right: -16mm;
+}
+.media-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.media-image-placeholder {
+    min-height: 72mm;
+    display: grid;
+    place-items: center;
+    padding: 14pt;
+    color: var(--text-dim);
+    font-size: 8.5pt;
+    text-align: center;
+}
+.media-image-caption {
+    margin-top: 5pt;
+    color: var(--text-dim);
+    font-size: 8pt;
+    line-height: 1.35;
+}
+.media-image-receipt {
+    display: block;
+    margin-top: 3pt;
+    color: var(--text-dimmer);
+    font-size: 7pt;
+    font-family: var(--font-display);
+}
+
+/* Ask table */
+.ask-table {
+    background: var(--bg-panel); border: 1px solid var(--border-strong);
+    padding: 0; margin: 10pt 0; border-radius: 2pt; overflow: hidden;
+}
+.ask-row {
+    display: grid; grid-template-columns: 14mm 1fr auto;
+    grid-column-gap: 10pt;
+    padding: 10pt 14pt; border-bottom: 1px solid var(--border);
+    align-items: center;
+}
+.ask-row:last-child { border-bottom: none; }
+.ask-num {
+    font-family: var(--font-display); font-size: 20pt;
+    color: var(--accent); font-weight: 400; line-height: 1;
+}
+.ask-label { color: var(--text); font-size: 10pt; font-weight: 400; }
+.ask-label .dim {
+    color: var(--text-dimmer); display: block;
+    font-size: 8pt; margin-top: 2pt; font-weight: 300; line-height: 1.35;
+}
+.ask-pill {
+    justify-self: end; font-family: var(--font-display);
+    font-size: 7.5pt; color: var(--accent); font-weight: 500;
+    /* Cycle 34: editorial pill — accent-tinted bg, thin border, capsule
+       rounded corners. */
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    padding: 3pt 9pt;
+    border-radius: 999pt;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-size: 7pt;
+    letter-spacing: 1.5px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* Columns */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9pt; }
+.four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 7pt; }
+
+.col-card {
+    background: var(--bg-panel); border: 1px solid var(--border);
+    padding: 12pt 13pt; border-radius: 3pt;
+    position: relative;
+}
+.col-card ul.bare { font-size: 9pt; line-height: 1.4; }
+.col-card ul.bare li { margin-bottom: 3pt; }
+.col-card.accent {
+    background: var(--accent-dim); border-color: var(--accent);
+}
+.col-card p { color: var(--text); font-size: 9.5pt; line-height: 1.5; }
+
+/* Pillar variant — distinct treatment from default col-card. Top-stripe
+   accent + accent-colored eyebrow so pillar columns read as labeled
+   claims. Default .col-card (founders) has NO accent stroke — recovers
+   horizontal text width per creator's May 23 evening direction. */
+.col-card.pillar {
+    border-top: 2pt solid var(--accent);
+    padding-top: 11pt;
+}
+.col-card.pillar .col-card-eyebrow {
+    color: var(--accent);
+    letter-spacing: 0.08em;
+}
+
+.note {
+    font-size: 7.5pt; color: var(--text-dimmer);
+    font-style: italic; margin-top: 6pt; font-weight: 300; line-height: 1.4;
+}
+
+/* Status pills — semantic color coding (success/warning/error/info)
+   Use inline as <span class="status status-success">live</span> in table
+   cells. Each color has ONE meaning per design canon. */
+.status {
+    display: inline-block;
+    font-size: 7.5pt; font-weight: 600;
+    padding: 2pt 7pt; border-radius: 999pt;
+    letter-spacing: 0.6px; text-transform: uppercase;
+    line-height: 1.3; white-space: nowrap;
+}
+.status-success { color: var(--status-success); background: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.3); }
+.status-warning { color: var(--status-warning); background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.3); }
+.status-error   { color: var(--status-error);   background: rgba(248, 113, 113, 0.12); border: 1px solid rgba(248, 113, 113, 0.3); }
+.status-info    { color: var(--status-info);    background: rgba(96, 165, 250, 0.12); border: 1px solid rgba(96, 165, 250, 0.3); }
+
+ul { font-size: 9pt; }
+ul.bare { list-style: none; padding: 0; color: var(--text-dim); font-weight: 300; }
+ul.bare li { padding: 4pt 0; border-bottom: 1px solid var(--border); }
+ul.bare li:last-child { border-bottom: none; }
+
+.confidentiality {
+    text-align: center; font-size: 8pt; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--text-dimmer); margin-top: 20pt;
+}
+
+/* NOTE ON ORDER — these screen blocks live LAST on purpose.
+
+   A media query adds no specificity. @media screen { .kpi-strip { … } } and a
+   bare .kpi-strip { … } tie, and a tie is settled by source order. Placed
+   mid-stylesheet, this block was overridden by every base rule declared below
+   it: the cover-title clamp took effect because .cover-title happens to be
+   declared above, and the KPI strip did not because .kpi-strip is declared
+   below. Two rules written the same way, one working, one silently not —
+   measured as 439px still overflowing after the fix "landed".
+
+   Last in the sheet is the only position where that cannot happen again. */
+
+/* ---------------------------------------------------------------------------
+   SCREEN: display type sized for a sheet, read on a phone.
+
+   56pt is ~75px, and at 75px the single word "Introduction" is about 440px
+   wide. On a 320px phone that one word makes the whole document 446px and
+   horizontally scrollable — and it takes the fixed print button with it,
+   because position:fixed resolves against the layout viewport, which the
+   overflow has already stretched. One unbreakable word, three symptoms.
+
+   page.ts made the SHEET fluid; a fluid sheet does not help if the type inside
+   it cannot get smaller than a word. Geometry and type are two different
+   constraints and each needs its own answer.
+
+   min() keeps the print size as the ceiling: on anything sheet-width or wider
+   nothing changes, and the vw term only ever takes over below that.
+   --------------------------------------------------------------------------- */
+@media screen {
+    .cover-title {
+        /* Mobile Loom witness: fit the title to the actual screen column so
+           words stay intact inside embedded legal documents. */
+        font-size: min(56pt, 8.5vw);
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: none;
+    }
+    .cover-sub { font-size: min(14pt, 4.5vw); max-width: 100%; }
+    h1.section { font-size: min(20pt, 6.5vw); overflow-wrap: break-word; }
+    h1.section + p.lede::first-letter { font-size: min(38pt, 9vw); }
+    /* Print sets line lengths in mm because paper is mm. On screen every one
+       of them is a floor the viewport cannot go under. */
+    .cover-sub, .lede, p, li, blockquote { max-width: 100%; }
+
+    /* A grid track of 1fr has an automatic minimum of auto, so it will not
+       shrink below its content no matter how narrow the viewport gets. That is
+       why a four-column KPI strip stayed 460px wide on a 320px phone: nothing
+       in repeat(4, 1fr) grants permission to get smaller. minmax(0, 1fr)
+       is the permission. */
+    .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kpi { padding: 10pt 12pt; border-right: none; }
+    .kpi:nth-child(odd) { padding-left: 0; }
+
+    /* 70mm is 265px of label column before the value has said anything. Same
+       defect, same fix, and this one has been fixed before — in the EMITTED
+       HTML (PR #3898), where regenerating the document destroyed it. A fix
+       applied to a generated artifact survives exactly until the next
+       generation, which is the mirror of the stale-artifact problem: there,
+       the artifact did not inherit the generator's fix; here, the generator
+       did not inherit the artifact's. Both are the same rule stated twice —
+       fix the emitter. */
+    .cover-meta > div { grid-template-columns: minmax(0, 70mm) minmax(0, 1fr); }
+    .cover-meta dt, .cover-meta dd { min-width: 0; overflow-wrap: break-word; }
+}
+
+/* Below this the label/value pair has no room to sit side by side at all. */
+@media screen and (max-width: 560px) {
+    .cover-meta > div { grid-template-columns: minmax(0, 1fr); gap: 2pt; }
+    .kpi-strip { grid-template-columns: minmax(0, 1fr); }
+    .kpi { padding-left: 0; padding-right: 0; }
+    /* Columns stack. Three 1fr tracks each need their content's min width, so
+       on a phone the grid outgrows the viewport and the rightmost card is
+       exposed off-screen (measured Sep 25 2026: 376–399px documents in a
+       320–375px viewport, every leave-behind with a threeCol block). One
+       track, and minmax(0, …) so a long word cannot re-widen it. */
+    .two-col, .three-col, .four-col { grid-template-columns: minmax(0, 1fr); }
+    .col-card { min-width: 0; }
+    /* The print control rode the overflow out of the viewport; pin it. */
+    .loom-print-btn { right: 12px; }
+    /* A four-column table's auto layout takes each column's longest word as a
+       floor; at 320px that floor is wider than the page. Fixed layout shares
+       the width evenly and long tokens wrap inside their cell. */
+    table { table-layout: fixed; width: 100%; }
+    th, td { overflow-wrap: anywhere; hyphens: auto; }
+}
+
+
+
+/* ── Loom slide-deck — landscape-native 16:9 (composeSlides) ─────────── */
+html, body.loom-slides {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+}
+body.loom-slides {
+    margin: 0;
+}
+
+.deck {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    /* Hidden until the splitter has run with real fonts (avoids a fallback-
+       font flash + mis-split). Revealed by the nav script on boot. */
+    opacity: 0;
+    transition: opacity 180ms ease-out;
+}
+.deck.is-booted { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+    .deck { transition: none; }
+}
+
+/* Each slide is a full-viewport, OPAQUE 16:9-centered frame. Opaque
+   background + visibility/display swap = no double-exposure ghosting
+   (the proven SquareBiz no-ghost pattern). */
+.slide {
+    position: absolute;
+    inset: 0;
+    display: none;            /* swapped to flex when active */
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);    /* OPAQUE — never transparent stack */
+    overflow: hidden;
+}
+.slide.is-active {
+    display: flex;
+    visibility: visible;
+}
+
+/* Measuring state — laid out (so scrollHeight/clientHeight are real) but
+   kept invisible + non-interactive while the splitter paginates at load.
+   Removed before the first paint the user sees. */
+.slide.is-measuring {
+    display: flex;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* The slide canvas IS 16:9 (1280×720). A single uniform transform (applied
+   by the nav script) scales it to fit the viewport — because the canvas is
+   already 16:9 it fills the frame edge-to-edge, no portrait side-bar gutters.
+   transform-origin: center so it stays centered at any scale. */
+.slide-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+.slide-canvas { position: relative; z-index: 1; }
+.slide-canvas {
+    position: relative;
+    width: 1280px;
+    height: 720px;
+    flex: 0 0 auto;
+    transform-origin: center center;
+    will-change: transform;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    padding: 48px 80px 40px 80px;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* Faint cosmic depth — radial accent wash, brand-token driven. Stays
+       subtle (Restraint-as-portal): door first, depth on attention. */
+    background-image:
+        radial-gradient(ellipse at 88% 8%, var(--accent-dim), transparent 46%),
+        radial-gradient(ellipse at 6% 96%, var(--accent-dim), transparent 50%);
+    background-repeat: no-repeat;
+}
+
+/* ── Content slide: head / body / foot ─────────────────────────────── */
+.slide-head {
+    flex: 0 0 auto;
+    margin-bottom: 16px;
+}
+.slide-eyebrow {
+    font-family: var(--font-display);
+    font-size: 14px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+.slide-heading {
+    font-family: var(--font-display);
+    /* Base size. Long multi-sentence headings (the StarHub triplets) are
+       stepped down a readable ladder toward ~27px by fitHeadings() in the nav
+       script (measured post-fonts, before splitting) so they don't eat the
+       body — keeps any heading inside ~3 lines without a copy change. */
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+    color: var(--text);
+    margin: 0;
+    text-wrap: balance;
+    max-width: 30ch;
+}
+.slide-heading .accent { color: var(--accent); font-weight: 400; }
+/* Continuation slides: the heading is just a reminder. Shrink it hard so the
+   trailing blocks get the full body height (no squeeze-and-clip). */
+.slide[data-continued="1"] .slide-head { margin-bottom: 18px; }
+.slide[data-continued="1"] .slide-heading {
+    font-size: 24px;
+    line-height: 1.15;
+    font-weight: 500;
+    color: var(--text-dim);
+    max-width: 46ch;
+}
+.slide-heading .continued {
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--text-dimmer);
+    font-weight: 400;
+    text-transform: none;
+}
+
+/* Body fills the remaining vertical space; content centers vertically when
+   short (so a 1-block slide doesn't float at the top). The splitter ensures
+   the body never exceeds this box at the readable type scale. */
+.slide-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    overflow: hidden;
+}
+.slide-body.is-overflow {
+    /* Marker the splitter sets pre-pagination; never visible post-split. */
+    justify-content: flex-start;
+}
+.slide-block { flex: 0 0 auto; }
+
+.slide-foot {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: var(--text-dimmer);
+}
+.slide-foot-label { text-transform: uppercase; }
+.slide-foot-num {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+}
+
+/* ── Cover (title) slide ───────────────────────────────────────────── */
+.slide-cover {
+    justify-content: space-between;
+    padding: 72px 96px 60px 96px;
+    background-image:
+        radial-gradient(ellipse at 82% 12%, var(--accent-dim), transparent 52%),
+        radial-gradient(ellipse at 14% 90%, var(--accent-dim), transparent 56%);
+}
+.slide-cover-top {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.slide-cover-lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.slide-cover-mark { width: 52px; height: 52px; display: inline-flex; }
+.slide-cover-mark svg { width: 100%; height: 100%; display: block; }
+.slide-cover-wordmark {
+    font-family: var(--font-brand);
+    font-size: 40px;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--text);
+}
+.slide-cover-wordmark .accent { color: var(--accent); }
+.slide-cover-runner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--text-dimmer);
+    text-align: right;
+}
+.slide-cover-center {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    max-width: 70%;
+}
+.slide-cover-eyebrow {
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+}
+.slide-cover-title {
+    font-family: var(--font-display);
+    font-size: 88px;
+    line-height: 1.02;
+    letter-spacing: -1px;
+    font-weight: 400;
+    color: var(--text);
+    margin: 0;
+    text-wrap: balance;
+}
+.slide-cover-title .accent { color: var(--accent); }
+.slide-cover-title .glow { text-shadow: 0 0 36px var(--accent-glow); }
+.slide-cover-sub {
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--text-dim);
+    font-weight: 300;
+    max-width: 30ch;
+    margin: 0;
+}
+.slide-cover-bottom { flex: 0 0 auto; }
+.slide-cover-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 48px;
+    padding: 22px 0 18px;
+    margin: 0;
+    border-top: 1px solid var(--border-strong);
+}
+.slide-cover-meta > div { display: flex; flex-direction: column; gap: 4px; }
+.slide-cover-meta dt {
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+    margin: 0;
+}
+.slide-cover-meta dd {
+    font-size: 16px;
+    color: var(--text);
+    margin: 0;
+    font-weight: 400;
+}
+.slide-cover-runner-foot {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 13px;
+}
+.slide-cover-runner-foot .mark {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+/* ── Landscape block restyles (scoped to .slide-canvas) ─────────────── */
+/* The block INNER html is identical to the A4 doc; only sizes/layout change
+   here for projection-readable landscape. */
+
+/* Subheadings inside a block */
+.slide-canvas h2.sub {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    margin: 0 0 10px;
+    padding: 0;
+    letter-spacing: -0.2px;
+}
+
+/* Paragraphs — readable at projection scale, tightened for density so the
+   content-heavy StarHub sections pack more per slide (fewer continuations)
+   without dropping below a readable floor. */
+.slide-canvas p {
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--text-dim);
+    margin: 0 0 10px;
+    max-width: 66ch;
+}
+.slide-canvas p:last-child { margin-bottom: 0; }
+.slide-canvas p.lede {
+    font-size: 23px;
+    line-height: 1.45;
+    color: var(--text);
+    font-weight: 400;
+    max-width: 42ch;
+}
+/* No A4 drop-cap on slides — reads as a glitch at projection scale. */
+.slide-canvas p.lede::first-letter {
+    font-family: inherit; font-size: inherit; float: none;
+    padding: 0; color: inherit; font-weight: inherit; line-height: inherit;
+}
+.slide-canvas p .em, .slide-canvas p.lede .em { color: var(--accent); font-style: italic; }
+.slide-canvas .white, .slide-canvas p strong { color: var(--text); font-weight: 600; }
+
+/* KPI strip — the hero of a metrics slide: a big horizontal row of stat
+   cards with large numbers filling the width. */
+.slide-canvas .kpi-strip {
+    display: flex;
+    gap: 22px;
+    margin: 6px 0;
+    border: none;
+}
+.slide-canvas .kpi {
+    flex: 1 1 0;
+    padding: 24px 26px;
+    border: 1px solid var(--border);
+    /* Accent cap + lift give the stat cards definition against the near-black
+       void (they read understated otherwise). Brand-token driven so it holds
+       on light themes too; the inset highlight is invisible on light, the
+       drop-shadow + accent cap carry the separation there. */
+    border-top: 3px solid var(--accent);
+    border-radius: 8px;
+    background: var(--bg-panel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 6px 20px rgba(0,0,0,0.20);
+    display: flex;
+    flex-direction: column;
+}
+.slide-canvas .kpi:first-child,
+.slide-canvas .kpi:last-child { padding: 24px 26px; }
+.slide-canvas .kpi-label {
+    font-size: 14px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text);
+    opacity: 0.78;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+.slide-canvas .kpi-value {
+    font-family: 'Monaspace Radon', var(--font-display);
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    font-weight: 500;
+}
+.slide-canvas .kpi-value.accent { color: var(--accent); }
+.slide-canvas .kpi-sub {
+    font-size: 14px;
+    color: var(--text-dimmer);
+    margin-top: 14px;
+    line-height: 1.4;
+}
+
+/* Tables — full width, larger rows, generous padding */
+.slide-canvas table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0;
+    font-size: 18px;
+}
+.slide-canvas thead th {
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: var(--text);
+    padding: 14px 16px 14px 0;
+    border-bottom: 1px solid var(--border-strong);
+    font-weight: 500;
+}
+.slide-canvas thead th.num, .slide-canvas td.num { text-align: right; }
+.slide-canvas tbody td {
+    padding: 13px 16px 13px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    line-height: 1.4;
+    font-size: 18px;
+}
+.slide-canvas tbody tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+.slide-canvas tbody tr:last-child td { border-bottom: none; }
+.slide-canvas tbody td .white { color: var(--text); font-weight: 500; }
+.slide-canvas tbody tr.total td {
+    color: var(--text); font-weight: 600;
+    border-top: 1px solid var(--border-strong); border-bottom: none;
+}
+.slide-canvas tbody tr.total td.num { color: var(--accent); font-family: var(--font-display); }
+.slide-canvas tbody tr.highlight td { background: var(--accent-dim); color: var(--text); }
+.slide-canvas tbody tr.highlight td.num { color: var(--accent); font-weight: 600; }
+
+/* Multi-column — side-by-side, full width (natural landscape). Two-col runs
+   roomier; three/four-col tighten type + padding so dense columns fit a single
+   slide before the splitter/shrink ever engages. */
+.slide-canvas .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.slide-canvas .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.slide-canvas .four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+.slide-canvas .col-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+}
+.slide-canvas .col-card.accent { background: var(--accent-dim); border-color: var(--accent); }
+.slide-canvas .col-card.pillar { border-top: 3px solid var(--accent); padding-top: 18px; }
+.slide-canvas .col-card h3.mini {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 10px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.2;
+    letter-spacing: -0.2px;
+}
+.slide-canvas .col-card .col-card-eyebrow {
+    display: block;
+    font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 6px;
+}
+.slide-canvas .col-card .col-card-headline {
+    display: block; color: var(--text); font-weight: 600;
+    font-size: 20px; line-height: 1.18; letter-spacing: -0.2px;
+}
+.slide-canvas .col-card p { font-size: 16px; line-height: 1.45; color: var(--text); max-width: none; }
+.slide-canvas .col-card ul.bare { font-size: 15px; line-height: 1.45; }
+.slide-canvas .col-card ul.bare li { padding: 5px 0; }
+/* Three/four-col: a touch smaller body so columns of prose fit one slide. */
+.slide-canvas .three-col .col-card { padding: 18px 18px; }
+.slide-canvas .three-col .col-card p,
+.slide-canvas .four-col .col-card p { font-size: 15px; line-height: 1.42; }
+.slide-canvas .three-col .col-card h3.mini,
+.slide-canvas .three-col .col-card .col-card-headline { font-size: 18px; }
+.slide-canvas .four-col .col-card { padding: 16px 16px; }
+.slide-canvas .four-col .col-card h3.mini,
+.slide-canvas .four-col .col-card .col-card-headline { font-size: 16px; }
+
+/* Callout — highlighted panel */
+.slide-canvas .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-dim);
+    border-radius: 0 8px 8px 0;
+    padding: 22px 28px;
+    margin: 6px 0;
+}
+.slide-canvas .callout .title {
+    font-family: var(--font-display);
+    font-size: 19px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.slide-canvas .callout p { color: var(--text); font-size: 19px; line-height: 1.5; max-width: none; }
+
+/* Pullquote — big centered statement, the hero of its own slide */
+.slide-canvas .pullquote {
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.28;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    font-weight: 400;
+    border-left: none;
+    padding: 0 8%;
+    margin: 0 auto;
+    max-width: 26ch;
+    text-align: center;
+    text-wrap: balance;
+}
+.slide-canvas .pullquote.small { font-size: 30px; }
+.slide-canvas .pullquote .em { color: var(--accent); font-style: italic; }
+/* A slide whose ONLY block is a pullquote centers it fully. */
+.slide-canvas .slide-body[data-solo="pullquote"] { justify-content: center; }
+
+/* Ask table — full-width, larger rows */
+.slide-canvas .ask-table {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 4px 0;
+}
+.slide-canvas .ask-row {
+    display: grid;
+    /* auto-size the num column so it fits a word ("Anchor") OR a digit ("3")
+       without overlapping the label. */
+    grid-template-columns: auto 1fr auto;
+    grid-column-gap: 28px;
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+}
+.slide-canvas .ask-row:last-child { border-bottom: none; }
+.slide-canvas .ask-num {
+    font-family: var(--font-display);
+    font-size: 32px; color: var(--accent); font-weight: 400; line-height: 1.05;
+    white-space: nowrap;
+    min-width: 44px;
+}
+.slide-canvas .ask-label { color: var(--text); font-size: 19px; }
+.slide-canvas .ask-label .dim {
+    color: var(--text-dimmer); display: block;
+    font-size: 15px; margin-top: 4px; line-height: 1.35;
+}
+.slide-canvas .ask-pill {
+    justify-self: end;
+    font-family: var(--font-display);
+    font-size: 13px; color: var(--accent); font-weight: 500;
+    background: var(--accent-dim); border: 1px solid var(--accent);
+    padding: 6px 14px; border-radius: 999px;
+    letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap;
+}
+
+/* Note — small italic aside */
+.slide-canvas .note {
+    font-size: 14px; color: var(--text-dimmer);
+    font-style: italic; font-weight: 300; line-height: 1.45;
+    margin-top: 10px; max-width: 70ch;
+}
+
+/* Channel bars — wider track, larger labels */
+.slide-canvas .channel-bars { display: flex; flex-direction: column; gap: 12px; margin: 4px 0; }
+.slide-canvas .channel-bar {
+    display: grid; grid-template-columns: 200px 1fr 70px;
+    gap: 18px; align-items: center; font-size: 16px;
+}
+.slide-canvas .channel-name { color: var(--text-dim); }
+.slide-canvas .channel-name.dim { color: var(--text-dimmer); }
+.slide-canvas .channel-track {
+    height: 22px; background: var(--bg-panel);
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+    border-radius: 4px;
+}
+.slide-canvas .channel-fill { height: 100%; }
+.slide-canvas .channel-fill.dim { background: var(--text-dimmer); }
+.slide-canvas .channel-pct { text-align: right; color: var(--text); font-weight: 500; font-size: 16px; }
+.slide-canvas .channel-pct.dim { color: var(--text-dimmer); }
+
+/* Chart — give it room; keep the panel chrome */
+.slide-canvas .chart-wrap {
+    background: var(--bg-panel); border: 1px solid var(--border);
+    padding: 18px 22px; margin: 4px 0; border-radius: 8px;
+}
+.slide-canvas .chart-title {
+    font-family: var(--font-display); font-size: 17px;
+    color: var(--text-dim); margin-bottom: 12px; font-weight: 500;
+}
+.slide-canvas .chart-wrap svg { width: 100%; height: auto; max-height: 360px; }
+.slide-canvas .chart-legend { gap: 22px; margin-top: 12px; font-size: 14px; }
+.slide-canvas .legend-dot { width: 12px; height: 12px; margin-right: 7px; }
+
+/* Loom media image — same block shape renders in documents and slides. */
+.slide-canvas .media-image {
+    margin: 8px 0 12px;
+}
+.slide-canvas .media-image-frame {
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.slide-canvas .media-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.slide-canvas .media-image-placeholder {
+    min-height: 220px;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    color: var(--text-dim);
+    font-size: 15px;
+    text-align: center;
+}
+.slide-canvas .media-image-caption {
+    margin-top: 8px;
+    color: var(--text-dim);
+    font-size: 14px;
+}
+
+/* Status pills inside table cells — scale up slightly */
+.slide-canvas .status { font-size: 12px; padding: 3px 11px; }
+
+/* Lists */
+.slide-canvas ul.bare { list-style: none; padding: 0; color: var(--text-dim); }
+.slide-canvas ul.bare li { padding: 6px 0; border-bottom: 1px solid var(--border); }
+.slide-canvas ul.bare li:last-child { border-bottom: none; }
+
+/* Continuation slides keep the body vertically centered (same as primaries) —
+   a half-full continuation reads as intentional, not top-stranded. The
+   splitter guarantees the body fits, so centering never crops. */
+
+/* Subtle slide enter — fade only (NO cross-fade overlap; prior slide is
+   already display:none before the next paints). Honors reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+    .slide.is-active .slide-canvas {
+        animation: slide-in 240ms ease-out;
+    }
+    @keyframes slide-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+}
+
+/* Navigation chrome */
+.deck-nav {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 50;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+}
+.deck-arrow {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 16px;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 120ms, border-color 120ms;
+}
+.deck-arrow:hover { color: var(--accent); border-color: var(--accent); }
+.deck-arrow:disabled { opacity: 0.25; cursor: default; }
+.deck-counter {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    min-width: 54px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+.deck-counter #counterNum { color: var(--accent); }
+
+.deck-progress {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    z-index: 50;
+}
+.deck-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 200ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+    .deck-progress-fill { transition: none; }
+}
+
+/* Overview grid (press 'o' / Esc). Opaque backdrop — no ghosting. */
+.deck-overview {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    padding: 28px;
+    background: var(--bg);
+    overflow: auto;
+    align-content: start;
+}
+.deck-overview.is-open { display: grid; }
+.deck-overview .ov-cell {
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-panel);
+    color: var(--text-dim);
+    font-family: var(--font-display);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    transition: border-color 120ms;
+}
+.deck-overview .ov-cell:hover { border-color: var(--accent); }
+.deck-overview .ov-num {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+}
+.deck-overview .ov-label {
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+</style>
+</head>
+<body class="loom-slides">
+<div class="deck" id="deck" data-deck-label="Empathy: The Pursuit of Joy">
+  <section class="slide is-active" data-slide="0" data-kind="cover" role="group" aria-roledescription="slide">
+    <div class="slide-canvas slide-cover" style="background: linear-gradient(100deg, rgba(14,20,32,0.93) 34%, rgba(14,20,32,0.55) 68%, rgba(14,20,32,0.3)), url('assets/candle-room.jpg') center / cover no-repeat">
+      <div class="slide-cover-top">
+        <div class="slide-cover-lockup"><span class="slide-cover-wordmark">Empathy: The Pursuit of Joy</span></div>
+        <div class="slide-cover-runner">
+          <span>Dr. Natalie Petouhoff &amp;middot; Jack Polo</span>
+          <span>October 2026</span>
+        </div>
+      </div>
+      <div class="slide-cover-center">
+        <div class="slide-cover-eyebrow">A film by Dr. Natalie Petouhoff</div>
+        <h1 class="slide-cover-title">A measured intervention <span class="accent">with a film as its instrument.</span></h1>
+        <p class="slide-cover-sub">65% shot. 20+ TB in hand. $1.3M completes it, and the asset earns across four markets rather than one window.</p>
+      </div>
+      <div class="slide-cover-bottom">
+        <dl class="slide-cover-meta">
+          <div><dt></dt><dd>EMPATHY: THE PURSUIT OF JOY</dd></div>
+          <div><dt></dt><dd>Prepared for John LaBrucherie</dd></div>
+          <div><dt></dt><dd>October 3, 2026</dd></div>
+        </dl>
+        <div class="slide-cover-runner slide-cover-runner-foot">
+          <span>Empathy: The Pursuit of Joy · John LaBrucherie · October 2026 · Confidential</span>
+          <span class="mark"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="1" data-kind="section" data-page-label="01" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">The problem</div>
+        <h1 class="slide-heading">Everyone has heard of mindfulness. <span class="accent">Almost nobody can use it at 3am.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="paragraph">
+<p class="lede">Anxiety, loneliness, emotional dysregulation and polarization are at historic highs. Meditation went mainstream and the numbers still went the wrong way.</p>
+        </div>
+        <div class="slide-block" data-block="1" data-kind="twoCol">
+<div class="two-col">
+<div class="col-card">
+  <h3 class="mini">What exists</h3>
+  <p>Content that <em>intellectualizes</em> emotional health &mdash; explains it, names it, charts it. It reads as spiritual, so it never reaches the people least likely to seek it out, and it offers nothing measurable when the moment is actually happening.</p>
+</div>
+<div class="col-card accent">
+  <h3 class="mini">What is missing</h3>
+  <p>A practical instrument for regulating fear, stress and reactivity in a real room on a real day &mdash; one whose effect can be measured rather than asserted.</p>
+</div>
+</div>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="2" data-kind="section" data-page-label="02" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">The solution</div>
+        <h1 class="slide-heading">Make it <span class="accent">felt</span>, then make it <span class="accent">measured.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="paragraph">
+<p class="lede">The film delivers empathy as an embodied, experiential intervention &mdash; story, music and neuroscience together, so an audience feels it, understands it, and can apply it the next day.</p>
+        </div>
+        <div class="slide-block" data-block="1" data-kind="paragraph">
+<p>That bridge between science and emotional intelligence is what makes it portable: accessible, measurable, enjoyable and actionable across entertainment, wellness, education, leadership and institutional settings. The same asset works in a cinema, a classroom, a boardroom and a prison.</p>
+        </div>
+        <div class="slide-block" data-block="2" data-kind="pullquote">
+<p class="pullquote">&ldquo;It&rsquo;s not about becoming a monk, changing your religion, or meditating on mountaintops. It&rsquo;s about connecting to your inner wisdom.&rdquo;</p>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="3" data-kind="section" data-page-label="03" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">Target markets</div>
+        <h1 class="slide-heading">Four markets, <span class="accent">one asset.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="kpiStrip">
+<div class="kpi-strip">
+
+<div class="kpi">
+    <div class="kpi-label">Global wellness economy</div>
+    <div class="kpi-value accent">$6.3T</div>
+    
+</div>
+
+<div class="kpi">
+    <div class="kpi-label">Women’s wellness</div>
+    <div class="kpi-value">$360B</div>
+    
+</div>
+
+<div class="kpi">
+    <div class="kpi-label">Alternative &amp; integrative medicine</div>
+    <div class="kpi-value">$145B</div>
+    
+</div>
+
+<div class="kpi">
+    <div class="kpi-label">Leadership &amp; conscious business</div>
+    <div class="kpi-value">$90B</div>
+    
+</div>
+</div>
+        </div>
+        <div class="slide-block" data-block="1" data-kind="note">
+<p class="note">These are addressable markets, not forecasts. The film is the entry point; the licensing, curriculum, audio and experience lines are how it reaches each one. Market sizes as stated in the project&rsquo;s business one-pager.</p>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="4" data-kind="section" data-page-label="04" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">What is already shot</div>
+        <h1 class="slide-heading">The access is the <span class="accent">asset.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="kpiStrip">
+<div class="kpi-strip">
+
+<div class="kpi">
+    <div class="kpi-label">Principal photography</div>
+    <div class="kpi-value accent">65%</div>
+    <div class="kpi-sub">RED KOMODO 6K</div>
+</div>
+
+<div class="kpi">
+    <div class="kpi-label">Footage in hand</div>
+    <div class="kpi-value">20+ TB</div>
+    <div class="kpi-sub">four Dharamshala shoots</div>
+</div>
+
+<div class="kpi">
+    <div class="kpi-label">Series rights</div>
+    <div class="kpi-value">10 parts</div>
+    <div class="kpi-sub">beyond the feature</div>
+</div>
+</div>
+        </div>
+        <div class="slide-block" data-block="1" data-kind="twoCol">
+<div class="two-col">
+<div class="col-card accent">
+  <h3 class="mini">Rooms nobody else is in</h3>
+  <p>The Dalai Lama. Tibetan monks, nuns, historians, artists and musicians. His AI Center. The monk-and-scientist sessions. A Buddhist chaplaincy inside Rikers Island. This is not access that can be bought later &mdash; it was earned over years and it is on drives now.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Music, already begun</h3>
+  <p>The sound-bath soundtrack is underway with Maejor, the Dalai Lama&rsquo;s Tibetan Music Institute, elementary-school students composing their own pieces, a global team of neuro-acoustic musicians, and a scientific measurement advisory board. Maejor&rsquo;s own interview &mdash; the rock-star journey and healing harmonics &mdash; is shot.</p>
+</div>
+</div>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="5" data-kind="section" data-page-label="05" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">Revenue architecture</div>
+        <h1 class="slide-heading">Layered, diversified, <span class="accent">long-tail.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="twoCol">
+<div class="two-col">
+<div class="col-card accent">
+  <h3 class="mini">Traditional distribution</h3>
+  <p>SVOD, AVOD/FAST, TVOD, and a direct fan site. Post-production is built to Netflix delivery readiness, so the premium window stays open rather than being designed away.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Scalable extensions</h3>
+  <p>Wellness, education, prisons, corporate programs, experiential events, retreats, music festivals, training and master courses &mdash; each one a separate buyer for work already paid for once.</p>
+</div>
+</div>
+        </div>
+        <div class="slide-block" data-block="1" data-kind="note">
+<p class="note">The economics of a documentary normally live or die on one window. This one is built so the film is the top of a funnel rather than the whole of it.</p>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="6" data-kind="section" data-page-label="06" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">Conservative projections</div>
+        <h1 class="slide-heading">Six years, <span class="accent">stated conservatively.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="table">
+<table>
+<thead><tr>
+<th></th>
+<th class="num">2026</th>
+<th class="num">2027</th>
+<th class="num">2028</th>
+<th class="num">2029</th>
+<th class="num">2030</th>
+<th class="num">2031</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Revenue</td>
+<td class="num">$0.25M</td>
+<td class="num">$1.5M</td>
+<td class="num">$3.0M</td>
+<td class="num">$3.75M</td>
+<td class="num">$4.25M</td>
+<td class="num">$5.2M</td>
+</tr>
+<tr class="highlight">
+<td>EBITDA</td>
+<td class="num">($0.15M)</td>
+<td class="num">$0.5M</td>
+<td class="num">$1.2M</td>
+<td class="num">$1.8M</td>
+<td class="num">$1.9M</td>
+<td class="num">$2.1M</td>
+</tr>
+</tbody></table>
+<p class="note">Projections as supplied by the production. EBITDA crosses into the black in 2027 &mdash; the year the film completes and premieres &mdash; and the curve after it is extension revenue, not theatrical.</p>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="7" data-kind="section" data-page-label="07" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">Intellectual property</div>
+        <h1 class="slide-heading">What is actually <span class="accent">owned.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="twoCol">
+<div class="two-col">
+<div class="col-card accent">
+  <h3 class="mini">Rights held</h3>
+  <p>Feature documentary plus 10-part series rights. Trademarks and copyrights over the proprietary healing harmonics, the books, the mastery classes, the experiential and immersive exhibitions, live sonic and music events, educational licensing and curriculum, and retreat formats.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Products the rights carry</h3>
+  <p>Wellness audio and the soundtrack as a standalone catalogue. Courses, a marketplace, and an online app. The proprietary sonic architecture is the piece that is hardest to copy and easiest to license.</p>
+</div>
+</div>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="8" data-kind="section" data-page-label="08" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">Use of funds</div>
+        <h1 class="slide-heading">Where the money <span class="accent">works.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="threeCol">
+<div class="three-col">
+<div class="col-card accent">
+  <h3 class="mini">Shoot it out</h3>
+  <p>Dharamshala: the powerful women of the Dalai Lama&rsquo;s inner circle, his messages for the film, the recording studio at his elementary school and the students composing for the soundtrack, plus interview pick-ups. US: the Dalai Lama&rsquo;s neuroscientists (Harvard, Stanford, UCSD, Wisconsin, Columbia, Emory) and the Rikers Island Buddhist chaplaincy.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Finish it</h3>
+  <p>Completion of the original score, sonic-healing architecture, licensing, composition and production. Editorial, edit, color grade and sound design to Netflix delivery readiness. Third-party health-impact measurement and wellness data capture, producing sponsor-ready case studies.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Carry it</h3>
+  <p>Social impact campaign to reach the targeted audience and influencers. Sponsorship of the Dharamshala film festival. Global marketing preparation. Continued sponsorship of orphaned children, technology donations to the Dalai Lama&rsquo;s AI Center, and donations to his music and art NGOs.</p>
+</div>
+</div>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="9" data-kind="section" data-page-label="09" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">The ask</div>
+        <h1 class="slide-heading"><span class="accent">$1.3M</span> completion funds.</h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="kpiStrip">
+<div class="kpi-strip">
+
+<div class="kpi">
+    <div class="kpi-label">Completion funds</div>
+    <div class="kpi-value accent">$1.3M</div>
+    
+</div>
+
+<div class="kpi">
+    <div class="kpi-label">Shot to date</div>
+    <div class="kpi-value">65%</div>
+    <div class="kpi-sub">RED KOMODO 6K</div>
+</div>
+
+<div class="kpi">
+    <div class="kpi-label">Film completion</div>
+    <div class="kpi-value">Nov ’27</div>
+    
+</div>
+</div>
+        </div>
+        <div class="slide-block" data-block="1" data-kind="twoCol">
+<div class="two-col">
+<div class="col-card accent">
+  <h3 class="mini">Four lanes, any combination</h3>
+  <p>Equity. Brand sponsorship. Grants. Tax-deductible donations through the fiscal sponsor. A funder is not forced into one instrument &mdash; the structure takes money in whichever form it comes.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Funding to date</h3>
+  <p>Founder-led development funding, in-kind contributions, strategic partnerships, and deferred compensation by Sikkema and Petouhoff. The principals are already carrying it.</p>
+</div>
+</div>
+        </div>
+        <div class="slide-block" data-block="2" data-kind="note">
+<p class="note">How to Be a Good Human, a Delaware Public Benefit Corporation. Tax-deductible donations via fiscal sponsor Film &amp; Media Alliance of West Michigan (501c3) &middot; EIN 20-2150875. Detailed line budget available under NDA.</p>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="10" data-kind="section" data-page-label="10" role="group" aria-roledescription="slide">
+    <div class="slide-canvas">
+      <div class="slide-head">
+        <div class="slide-eyebrow">The team</div>
+        <h1 class="slide-heading">Assembled and <span class="accent">already shooting.</span></h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="fourCol">
+<div class="four-col">
+<div class="col-card accent">
+  <h3 class="mini">Dr. Natalie Petouhoff</h3>
+  <p>Executive Producer, Story Architect, Writer. WSJ bestselling author, PhD scientist (UCLA). The through-line: proving the soft thing can be measured &mdash; first for business, now for being human.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Josh Sikkema</h3>
+  <p>Director-Cinematographer. Award-winning filmmaker specializing in music-driven, human-centered storytelling.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Maejor</h3>
+  <p>Musical Director, Sonic Architect. Multi-platinum, Grammy-nominated; producer on Justin Bieber&rsquo;s 2025 album Swag; Van Gogh: The Immersive Experience; founder, Frequency Music School.</p>
+</div>
+<div class="col-card">
+  <h3 class="mini">Jack Polo</h3>
+  <p>Marketing &amp; Brand Lead; Operations. Thirty years building brands and the systems that run them &mdash; leads marketing and branding, and operates the automation stack behind distribution, audience and campaign. Soundtrack producing role under discussion.</p>
+</div>
+</div>
+        </div>
+        <div class="slide-block" data-block="1" data-kind="mediaImage">
+<figure class="media-image frame-panel ratio-21-9">
+  <div class="media-image-frame">
+    <img src="assets/production-still.jpg" alt="Production still — the monk and scientist sessions">
+  </div>
+  <figcaption class="media-image-caption">From production — the monk-and-scientist sessions</figcaption>
+</figure>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+  <section class="slide" data-slide="11" data-kind="section" data-page-label="11" role="group" aria-roledescription="slide">
+    <div class="slide-canvas" style="background: linear-gradient(100deg, rgba(14,20,32,0.88) 22%, rgba(14,20,32,0.62) 55%, rgba(14,20,32,0.38)), url('assets/candle-room.jpg') center / cover no-repeat">
+      <div class="slide-head">
+        <div class="slide-eyebrow">The summons</div>
+        <h1 class="slide-heading">The film is a <span class="accent">reboot.</span> Join us.</h1>
+      </div>
+      <div class="slide-body">
+        <div class="slide-block" data-block="0" data-kind="pullquote">
+<p class="pullquote">&ldquo;Not because I&rsquo;m right &mdash; but because of how the human operating system is designed.&rdquo;</p>
+        </div>
+        <div class="slide-block" data-block="1" data-kind="note">
+<p class="note">&mdash; Dr. Natalie Petouhoff</p>
+        </div>
+        <div class="slide-block" data-block="2" data-kind="note">
+<p class="note">Dr. Natalie Petouhoff &middot; DoctorNatalie@gmail.com &middot; 310-919-8467 &nbsp;|&nbsp; Josh Sikkema &middot; 616-389-4918 &nbsp;|&nbsp; Instagram @neuroscienceofjoy_film &nbsp;|&nbsp; 13924 Panay Way, Suite 304, Marina Del Rey, CA 90292</p>
+        </div>
+      </div>
+      <div class="slide-foot">
+        <span class="slide-foot-label"></span>
+        <span class="slide-foot-num"></span>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="deck-overview" id="overview" aria-hidden="true"></div>
+<div class="deck-nav" role="navigation" aria-label="Slide navigation">
+  <button class="deck-arrow" id="prevBtn" aria-label="Previous slide">&#8592;</button>
+  <div class="deck-counter"><span id="counterNum">01</span> / <span id="counterTot">12</span></div>
+  <button class="deck-arrow" id="nextBtn" aria-label="Next slide">&#8594;</button>
+</div>
+<div class="deck-progress" aria-hidden="true"><div class="deck-progress-fill" id="progressFill"></div></div>
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var DECK_LABEL = (deck && deck.getAttribute('data-deck-label')) || '';
+  var idx = 0;
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var counter = document.getElementById('counterNum');
+  var counterTot = document.getElementById('counterTot');
+  var progress = document.getElementById('progressFill');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var overview = document.getElementById('overview');
+
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+  // ── Scale: the .slide-canvas is a fixed 1280×720 16:9 box. Scale it
+  // uniformly to fit the viewport. Because the canvas itself is 16:9, the
+  // fitted result fills the frame edge-to-edge — never leaves portrait
+  // side-bar gutters.
+  function scaleCanvas(slide){
+    var canvas = slide.querySelector('.slide-canvas');
+    if (!canvas) return;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var s = Math.min(vw / 1280, vh / 720);
+    if (!isFinite(s) || s <= 0) s = 1;
+    canvas.style.transform = 'scale(' + s + ')';
+  }
+  function scaleAll(){ for (var i=0;i<slides.length;i++) scaleCanvas(slides[i]); }
+
+  // ── Overflow splitter. For each section slide, measure its body. If the
+  // blocks overflow the canvas body box, move trailing blocks onto a fresh
+  // continuation slide that clones the header (marked "— continued"). Repeat
+  // until every slide's body fits. Readable type stays fixed — we paginate,
+  // never shrink. (Iris-Test: no silent truncation, no unreadable cram.)
+  function splitOverflow(){
+    var working = Array.prototype.slice.call(document.querySelectorAll('.slide[data-kind="section"]'));
+    for (var i=0;i<working.length;i++){
+      paginateSlide(working[i]);
+    }
+    // Re-collect (continuation slides were inserted) + renumber.
+    slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+    // Last-resort fit: a slide can be left over-tall when it holds a SINGLE
+    // block that itself exceeds the body (e.g. a dense table/multi-col that
+    // can't be paginated). Splitting can't help there — controlled-shrink that
+    // ONE body to fit, down to a readable floor. This is the exception, not
+    // the mechanism: paragraphs/strips/tables paginate; only un-splittable
+    // single blocks ever shrink, and never below the floor (Iris-Test: prefer
+    // a slightly smaller readable block over a cropped one).
+    for (var j=0;j<slides.length;j++) fitOversizeBlock(slides[j]);
+  }
+
+  // Shrink a single-block-overflow body uniformly to fit. Floor at 0.78 so it
+  // stays projection-readable; this only ever fires on an un-splittable single
+  // block (a multi-col that can't paginate) and the tightened col CSS keeps
+  // most of those native — the shrink is the rare exception, near 1.0.
+  function fitOversizeBlock(slide){
+    var body = slide.querySelector('.slide-body');
+    if (!body) return;
+    slide.classList.add('is-measuring');
+    var avail = body.clientHeight;
+    var need = body.scrollHeight;
+    if (need > avail + 1 && avail > 0){
+      var s = Math.max(0.78, avail / need);
+      var inner = body.querySelector(':scope > .slide-block');
+      // Only shrink when the overflow is a single block (un-splittable). When
+      // multiple blocks remain, the paginator already did its job; leave them.
+      var blockCount = body.querySelectorAll(':scope > .slide-block').length;
+      if (blockCount <= 1 && inner){
+        body.style.justifyContent = 'center';
+        inner.style.transformOrigin = 'center center';
+        inner.style.transform = 'scale(' + s + ')';
+      }
+    }
+    slide.classList.remove('is-measuring');
+  }
+
+  function bodyFits(slide){
+    var body = slide.querySelector('.slide-body');
+    if (!body) return true;
+    // +1px slack for sub-pixel rounding.
+    return body.scrollHeight <= body.clientHeight + 1;
+  }
+
+  // Build a continuation slide that clones this slide's chrome (header marked
+  // "— continued") with an empty body. Returns the new slide (not yet inserted
+  // into the DOM flow at a chosen position — caller inserts it).
+  function makeContinuation(slide){
+    var cont = slide.cloneNode(false);
+    cont.classList.remove('is-active');
+    cont.classList.add('is-measuring');
+    cont.setAttribute('data-continued', '1');
+    cont.setAttribute('data-kind', 'section');
+    var canvas = document.createElement('div');
+    canvas.className = 'slide-canvas';
+    var head = slide.querySelector('.slide-head').cloneNode(true);
+    var heading = head.querySelector('.slide-heading');
+    if (heading && !heading.querySelector('.continued')){
+      heading.insertAdjacentHTML('beforeend', ' <span class="continued">— continued</span>');
+    }
+    var contBody = document.createElement('div');
+    contBody.className = 'slide-body';
+    var foot = slide.querySelector('.slide-foot').cloneNode(true);
+    canvas.appendChild(head);
+    canvas.appendChild(contBody);
+    canvas.appendChild(foot);
+    cont.appendChild(canvas);
+    return cont;
+  }
+
+  // Split a single over-tall ROW-CONTAINER block (table / askTable /
+  // channelBars) by moving trailing rows onto a continuation slide. The
+  // continuation gets a clone of the block shell (thead / wrapper) with only
+  // the moved rows. Returns true if it split, false if it couldn't.
+  function splitRowBlock(slide){
+    var body = slide.querySelector('.slide-body');
+    var block = body.querySelector(':scope > .slide-block');
+    if (!block) return false;
+    var kind = block.getAttribute('data-kind');
+    var rowSel = null, containerSel = null;
+    if (kind === 'table'){ rowSel = 'tbody > tr'; containerSel = 'tbody'; }
+    else if (kind === 'askTable'){ rowSel = '.ask-row'; containerSel = '.ask-table'; }
+    else if (kind === 'channelBars'){ rowSel = '.channel-bar'; containerSel = '.channel-bars'; }
+    else return false;
+    var container = block.querySelector(containerSel);
+    if (!container) return false;
+    var rows = Array.prototype.slice.call(container.querySelectorAll(rowSel));
+    if (rows.length <= 2) return false; // not worth splitting
+
+    var cont = makeContinuation(slide);
+    // Clone the whole block shell; empty its row container.
+    var blockClone = block.cloneNode(true);
+    var contContainer = blockClone.querySelector(containerSel);
+    var contRows = Array.prototype.slice.call(contContainer.querySelectorAll(rowSel));
+    for (var r=0;r<contRows.length;r++) contRows[r].parentNode.removeChild(contRows[r]);
+    var contBody = cont.querySelector('.slide-body');
+    contBody.appendChild(blockClone);
+    slide.parentNode.insertBefore(cont, slide.nextSibling);
+
+    // Move trailing rows from this slide's table into the clone until this
+    // slide fits (keep at least 1 row here).
+    var moved = false;
+    cont.classList.add('is-measuring');
+    while (!bodyFits(slide)){
+      var live = container.querySelectorAll(rowSel);
+      if (live.length <= 1) break;
+      var last = live[live.length - 1];
+      contContainer.insertBefore(last, contContainer.firstChild);
+      moved = true;
+    }
+    if (!moved){ slide.parentNode.removeChild(cont); return false; }
+    // The continuation may itself overflow — recurse.
+    paginateSlide(cont);
+    cont.classList.remove('is-measuring');
+    return true;
+  }
+
+  function paginateSlide(slide){
+    // Make the slide temporarily measurable (off-screen but laid out).
+    var prevActive = slide.classList.contains('is-active');
+    slide.classList.add('is-measuring');
+    var guard = 0;
+    while (!bodyFits(slide) && guard++ < 60){
+      var body = slide.querySelector('.slide-body');
+      var blocks = Array.prototype.slice.call(body.querySelectorAll(':scope > .slide-block'));
+      if (blocks.length <= 1){
+        // Single block: try ROW-level splitting (tables/askTable/channelBars).
+        // If it can't split by row, leave it — fitOversizeBlock() handles the
+        // rare un-splittable single block as a controlled-shrink last resort.
+        splitRowBlock(slide);
+        break;
+      }
+      // Multi-block overflow: move trailing whole blocks onto a continuation.
+      var cont = makeContinuation(slide);
+      var contBody = cont.querySelector('.slide-body');
+      slide.parentNode.insertBefore(cont, slide.nextSibling);
+      var moved = [];
+      cont.classList.add('is-measuring');
+      while (!bodyFits(slide)){
+        var src = body.querySelectorAll(':scope > .slide-block');
+        if (src.length <= 1) break;
+        var last = src[src.length - 1];
+        moved.unshift(last);
+        contBody.insertBefore(last, contBody.firstChild);
+      }
+      if (moved.length === 0){ slide.parentNode.removeChild(cont); break; } // couldn't improve
+      // The continuation may itself overflow — recurse.
+      paginateSlide(cont);
+      cont.classList.remove('is-measuring');
+    }
+    slide.classList.remove('is-measuring');
+    if (prevActive) slide.classList.add('is-active');
+  }
+
+  // ── Footer + counter chrome.
+  function decorate(){
+    var n = slides.length;
+    for (var i=0;i<slides.length;i++){
+      var s = slides[i];
+      var labelEl = s.querySelector('.slide-foot-label');
+      var numEl = s.querySelector('.slide-foot-num');
+      if (labelEl){
+        var pl = s.getAttribute('data-page-label');
+        labelEl.textContent = DECK_LABEL + (pl ? '  ·  ' + stripNum(pl) : '');
+      }
+      if (numEl){ numEl.textContent = pad(i+1) + ' / ' + pad(n); }
+      s.setAttribute('data-slide', String(i));
+      // Tag solo-pullquote bodies for full centering.
+      var body = s.querySelector('.slide-body');
+      if (body){
+        var bl = body.querySelectorAll(':scope > .slide-block');
+        if (bl.length === 1 && bl[0].getAttribute('data-kind') === 'pullquote'){
+          body.setAttribute('data-solo', 'pullquote');
+        }
+      }
+    }
+    if (counterTot) counterTot.textContent = pad(n);
+  }
+  // Strip a leading "NN · " ordinal from a page label so the footer reads
+  // cleanly next to the live slide number.
+  function stripNum(s){ return s.replace(/^\s*\d+\s*[·.\-]\s*/, ''); }
+
+  function render(){
+    var n = slides.length;
+    for (var i = 0; i < slides.length; i++){
+      slides[i].classList.toggle('is-active', i === idx);
+    }
+    if (counter) counter.textContent = pad(idx + 1);
+    if (counterTot) counterTot.textContent = pad(n);
+    if (progress) progress.style.width = ((idx + 1) / n * 100) + '%';
+    if (prevBtn) prevBtn.disabled = (idx === 0);
+    if (nextBtn) nextBtn.disabled = (idx === n - 1);
+    requestAnimationFrame(function(){ scaleCanvas(slides[idx]); });
+  }
+
+  function goTo(n){
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === idx) return;
+    idx = n;
+    render();
+  }
+  function next(){ if (idx < slides.length - 1) goTo(idx + 1); }
+  function prev(){ if (idx > 0) goTo(idx - 1); }
+
+  // ── Overview grid — built lazily on first open.
+  var overviewBuilt = false;
+  function buildOverview(){
+    if (overviewBuilt || !overview) return;
+    overviewBuilt = true;
+    overview.innerHTML = '';
+    for (var i = 0; i < slides.length; i++){
+      (function(i){
+        var s = slides[i];
+        var label = '';
+        var h = s.querySelector('.slide-heading, .slide-cover-title');
+        if (h) label = (h.textContent || '').trim().slice(0, 80);
+        var cell = document.createElement('div');
+        cell.className = 'ov-cell';
+        cell.innerHTML = '<div class="ov-num">' + pad(i + 1) + '</div><div class="ov-label"></div>';
+        cell.querySelector('.ov-label').textContent = label || ('Slide ' + (i + 1));
+        cell.addEventListener('click', function(){ toggleOverview(false); goTo(i); });
+        overview.appendChild(cell);
+      })(i);
+    }
+  }
+  function toggleOverview(open){
+    if (!overview) return;
+    buildOverview();
+    overview.classList.toggle('is-open', open);
+    overview.setAttribute('aria-hidden', open ? 'false' : 'true');
+  }
+  function overviewOpen(){ return overview && overview.classList.contains('is-open'); }
+
+  // Click/tap anywhere on the deck advances (ignore nav-bar + overview clicks).
+  deck.addEventListener('click', function(e){
+    if (e.target.closest('.deck-nav')) return;
+    next();
+  });
+  if (prevBtn) prevBtn.addEventListener('click', function(e){ e.stopPropagation(); prev(); });
+  if (nextBtn) nextBtn.addEventListener('click', function(e){ e.stopPropagation(); next(); });
+
+  document.addEventListener('keydown', function(e){
+    switch (e.key){
+      case 'ArrowRight': case 'PageDown': case ' ': next(); e.preventDefault(); break;
+      case 'ArrowLeft': case 'PageUp': prev(); e.preventDefault(); break;
+      case 'Home': goTo(0); e.preventDefault(); break;
+      case 'End': goTo(slides.length - 1); e.preventDefault(); break;
+      case 'o': case 'O': toggleOverview(!overviewOpen()); e.preventDefault(); break;
+      case 'Escape': if (overviewOpen()) toggleOverview(false); e.preventDefault(); break;
+    }
+  });
+
+  window.addEventListener('resize', scaleAll);
+  if ('ResizeObserver' in window){
+    var ro = new ResizeObserver(scaleAll);
+    ro.observe(document.documentElement);
+  }
+
+  // Bootstrap: paginate overflow once, decorate chrome, render. Pagination +
+  // single-block fit MUST measure with the real (embedded) fonts — fallback-
+  // font metrics mis-split — so we wait for document.fonts.ready before the one
+  // and only split pass. The deck stays visually hidden until boot completes to
+  // avoid a fallback-font flash, then reveals (no re-split, no double-count).
+  // Auto-fit over-tall headings BEFORE splitting. A long multi-sentence heading
+  // (the StarHub rhetorical triplets) at the base size eats body height and
+  // forces extra continuation slides. Stepping the size down a readable ladder
+  // when the heading exceeds ~3 lines keeps the punch but frees body space —
+  // a denser deck with NO copy change. (This is the real implementation of the
+  // "fluid clamp" the .slide-heading comment promised.)
+  function fitHeadings(){
+    var ladder = [40, 36, 33, 30, 27];
+    var maxH = 134; // ≈ 3 lines at 40px / line-height 1.1, + slack
+    for (var i = 0; i < slides.length; i++){
+      var s = slides[i];
+      if (s.getAttribute('data-continued') === '1') continue; // continuations already 24px
+      var h = s.querySelector('.slide-heading');
+      if (!h) continue;
+      s.classList.add('is-measuring');
+      h.style.fontSize = '';                 // reset to CSS base (40px)
+      var k = 0;
+      while (h.scrollHeight > maxH && k < ladder.length){
+        h.style.fontSize = ladder[k] + 'px';
+        k++;
+      }
+      s.classList.remove('is-measuring');
+    }
+  }
+
+  function boot(){
+    fitHeadings();
+    splitOverflow();
+    overviewBuilt = false;
+    decorate();
+    render();
+    scaleAll();
+    deck.classList.add('is-booted');
+  }
+  // Deterministic split: ALWAYS paginate with the real (embedded) fonts.
+  // document.fonts.ready resolves once font loading settles (success OR
+  // failure); measuring before that races fallback-font metrics and yields an
+  // unstable slide count (the ±1 wobble). Double-rAF lets the loaded metrics
+  // apply to layout before we measure. The wall-clock fallback is defensive
+  // only — generous enough that fonts.ready always wins in normal operation, so
+  // the count is stable run-to-run.
+  if (document.fonts && document.fonts.ready){
+    var booted = false;
+    var go = function(){ if (booted) return; booted = true; boot(); };
+    document.fonts.ready.then(function(){
+      requestAnimationFrame(function(){ requestAnimationFrame(go); });
+    });
+    setTimeout(go, 6000);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>
